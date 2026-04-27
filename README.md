@@ -33,12 +33,12 @@ This site is configured for Cloudflare Workers with OpenNext.
 
 Cloudflare Workers build settings:
 
-- Build command: `npm run build:worker`
+- Build command: `npm run build`
 - Deploy command: `npx wrangler deploy`
 - Root/path: `/`
 - Production branch: `main`
 
-Do not use `npm run build` as the Cloudflare build command for Workers. That only runs the normal Next.js build and does not create the `.open-next` files Wrangler needs.
+The `build` script runs the normal Next.js build first, then creates the `.open-next` Worker bundle that Wrangler deploys.
 
 For local deploys, run:
 
