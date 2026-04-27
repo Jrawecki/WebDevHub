@@ -50,16 +50,8 @@ export function Footer() {
             <p className="footer-heading">Contact</p>
             <ul className="footer-list footer-list--contact">
               <li>{siteIdentity.regionLabel}</li>
-              <li>
-                <a href={`mailto:${siteIdentity.contactEmail}`}>
-                  {siteIdentity.contactEmail}
-                </a>
-              </li>
-              <li>
-                <a href={siteIdentity.contactPhoneHref}>
-                  {siteIdentity.contactPhone}
-                </a>
-              </li>
+              <li>{siteIdentity.contactEmail}</li>
+              <li>{siteIdentity.contactPhone}</li>
             </ul>
           </div>
         </div>

@@ -161,34 +161,34 @@ async function expectFooterContrast(page: Page) {
     }
 
     const footer = document.querySelector(".site-footer");
-    const footerLink = document.querySelector(".footer-list--contact a");
+    const footerContact = document.querySelector(".footer-list--contact li:nth-child(2)");
     const footerMuted = document.querySelector(".footer-grid__brand .prose-copy");
 
     if (
       !(footer instanceof HTMLElement) ||
-      !(footerLink instanceof HTMLElement) ||
+      !(footerContact instanceof HTMLElement) ||
       !(footerMuted instanceof HTMLElement)
     ) {
       return null;
     }
 
     const footerBackground = parseColor(getComputedStyle(footer).backgroundColor);
-    const footerLinkColor = parseColor(getComputedStyle(footerLink).color);
+    const footerContactColor = parseColor(getComputedStyle(footerContact).color);
     const footerMutedColor = parseColor(getComputedStyle(footerMuted).color);
 
-    if (!footerBackground || !footerLinkColor || !footerMutedColor) {
+    if (!footerBackground || !footerContactColor || !footerMutedColor) {
       return null;
     }
 
     return {
-      footerLinkRatio: ratio(footerLinkColor, footerBackground),
+      footerContactRatio: ratio(footerContactColor, footerBackground),
       footerMutedRatio: ratio(blend(footerMutedColor, footerBackground), footerBackground),
       footerBackground: getComputedStyle(footer).backgroundColor,
     };
   });
 
   expect(contrast).not.toBeNull();
-  expect(contrast?.footerLinkRatio ?? 0).toBeGreaterThanOrEqual(4.5);
+  expect(contrast?.footerContactRatio ?? 0).toBeGreaterThanOrEqual(4.5);
   expect(contrast?.footerMutedRatio ?? 0).toBeGreaterThanOrEqual(4.5);
   expect(contrast?.footerBackground).not.toBe("rgba(0, 0, 0, 0)");
 }
@@ -304,18 +304,17 @@ test("footer keeps the live email address", async ({ page }) => {
 
   await expect(page.locator("main").getByText("jrawecki31@gmail.com", { exact: true })).toHaveCount(0);
   await expect(page.locator(".footer-list--contact").getByText("jrawecki31@gmail.com", { exact: true })).toBeVisible();
+  await expect(page.locator(".footer-list--contact").getByRole("link", { name: "jrawecki31@gmail.com" })).toHaveCount(0);
   await expect(page.locator(".utility-ribbon")).toHaveCount(0);
 });
 
-test("footer keeps the clickable phone", async ({ page }) => {
+test("footer keeps the visible phone as plain text", async ({ page }) => {
   await page.goto("/contact");
   await page.waitForLoadState("networkidle");
 
   await expect(page.locator("main").getByRole("link", { name: /302\) 559-8440/ })).toHaveCount(0);
-  await expect(page.locator(".footer-list--contact").getByRole("link", { name: "(302) 559-8440" })).toHaveAttribute(
-    "href",
-    "tel:+13025598440",
-  );
+  await expect(page.locator(".footer-list--contact").getByText("(302) 559-8440", { exact: true })).toBeVisible();
+  await expect(page.locator(".footer-list--contact").getByRole("link", { name: "(302) 559-8440" })).toHaveCount(0);
 });
 
 test("primary navigation exposes requested page order", async ({ page }) => {
@@ -643,7 +642,8 @@ test("footer promo copy and extra footer CTA are removed", async ({ page }) => {
   await expect(page.getByText("Static-first site. Privacy-respecting by default.")).toHaveCount(0);
   await expect(page.getByText("Clear scope, thoughtful design, and clean launch execution.")).toHaveCount(0);
   await expect(page.locator(".footer-list--contact").getByText("jrawecki31@gmail.com", { exact: true })).toBeVisible();
-  await expect(page.locator(".footer-list--contact").getByRole("link", { name: "(302) 559-8440" })).toBeVisible();
+  await expect(page.locator(".footer-list--contact").getByText("(302) 559-8440", { exact: true })).toBeVisible();
+  await expect(page.locator(".footer-list--contact a")).toHaveCount(0);
 });
 
 test("contact page uses a frontend-only mailto form", async ({ page }) => {
