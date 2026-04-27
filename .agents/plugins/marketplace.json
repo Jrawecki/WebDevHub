@@ -1,0 +1,20 @@
+{
+  "name": "web-studio-local",
+  "interface": {
+    "displayName": "Web Studio Local Plugins"
+  },
+  "plugins": [
+    {
+      "name": "web-studio-workflow",
+      "source": {
+        "source": "local",
+        "path": "./plugins/web-studio-workflow"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
