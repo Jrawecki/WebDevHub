@@ -333,6 +333,10 @@ textarea {
   content: "";
 }
 
+.section-label-spacer {
+  min-height: 1.08rem;
+}
+
 .section-chip {
   display: inline-flex;
   align-items: center;
@@ -1837,7 +1841,7 @@ html[data-theme="dark"] .mobile-nav__toggle[aria-expanded="true"] {
   }
 
   .site-brand--header .site-brand__logo {
-    height: 2.8rem;
+    height: 4.2rem;
   }
 
   .site-brand--header .site-brand__logo-shell {

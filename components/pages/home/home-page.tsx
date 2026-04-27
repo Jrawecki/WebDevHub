@@ -4,7 +4,6 @@ import { aboutContent } from "@/content/about";
 import { contactContent } from "@/content/contact";
 import { processSteps } from "@/content/process";
 import { services } from "@/content/services";
-import { siteIdentity } from "@/components/shared/site-brand";
 
 function SectionLead({
   label,
@@ -31,9 +30,7 @@ export function HomePageContent() {
         <div className="editorial-hero__grid">
           <div className="section-stack section-stack--center gap-5">
             <div className="section-stack section-stack--center gap-4">
-              <p className="section-label">
-                Websites, landing pages, and web apps in {siteIdentity.regionLabel}
-              </p>
+              <div className="section-label-spacer" aria-hidden="true" />
               <h1 className="display-title max-w-4xl">
                 Websites and web apps that make your business easier to run.
               </h1>

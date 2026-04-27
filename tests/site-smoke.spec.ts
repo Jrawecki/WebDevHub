@@ -584,7 +584,7 @@ test("home hero stays buyer-facing", async ({ page }) => {
       name: "Websites and web apps that make your business easier to run.",
     }),
   ).toBeVisible();
-  await expect(page.getByText("Websites, landing pages, and web apps in Delaware", { exact: true })).toBeVisible();
+  await expect(page.getByText("Websites, landing pages, and web apps in Delaware", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Greater Philadelphia")).toHaveCount(0);
 });
 
