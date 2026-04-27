@@ -1,12 +1,25 @@
 node_modules/
 .next/
+.open-next/
+.wrangler/
+.agents/
+plugins/
+.plugins/
 out/
 test-results/
 playwright-report/
 
+AGENTS.md
+Business Plan.md
+docs/website-build-plan.md
+*business*plan*
+*Business*Plan*
+
 .env
 .env.*
+.dev.vars*
 !.env.example
+!.dev.vars.example
 
 *.log
 *.tsbuildinfo

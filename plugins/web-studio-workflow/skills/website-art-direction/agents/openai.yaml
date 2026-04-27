@@ -1,8 +1,0 @@
-interface:
-  display_name: "Website Art Direction"
-  short_description: "Enforce a distinctive, high-trust visual direction."
-  brand_color: "#12324A"
-  default_prompt: "Use $website-art-direction to shape a non-generic, high-trust direction for this website page."
-
-policy:
-  allow_implicit_invocation: true

@@ -1,8 +1,0 @@
-interface:
-  display_name: "Website Build Rules"
-  short_description: "Apply this site's stack and quality standards."
-  brand_color: "#456B52"
-  default_prompt: "Use $website-build-rules to implement this page with the project's stack, UX, and quality standards."
-
-policy:
-  allow_implicit_invocation: true

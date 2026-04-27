@@ -27,15 +27,17 @@ npm run build
 npm run test:e2e
 ```
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-This site is configured as a static Next.js export for Cloudflare Pages.
+This site is configured for Cloudflare Workers with OpenNext.
 
-Cloudflare build settings:
+Cloudflare Workers build settings:
 
-- Framework preset: `Next.js (Static HTML Export)`
-- Build command: `npm run build`
-- Build output directory: `out`
+- Build command: leave blank
+- Deploy command: `npm run deploy`
+- Root/path: `/`
 - Production branch: `main`
+
+If Cloudflare requires a build command, use `npm run build`; the deploy command will still run the OpenNext build before uploading.
 
 The production domain is `https://webhubde.com`.
