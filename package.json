@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "build:worker": "opennextjs-cloudflare build",
+    "preview": "npm run build:worker && wrangler dev",
+    "deploy": "npm run build:worker && wrangler deploy",
+    "upload": "npm run build:worker && wrangler versions upload",
     "start": "next start",
     "lint": "eslint .",
     "test:e2e": "playwright test",

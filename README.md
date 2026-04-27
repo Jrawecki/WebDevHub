@@ -33,11 +33,17 @@ This site is configured for Cloudflare Workers with OpenNext.
 
 Cloudflare Workers build settings:
 
-- Build command: leave blank
-- Deploy command: `npm run deploy`
+- Build command: `npm run build:worker`
+- Deploy command: `npx wrangler deploy`
 - Root/path: `/`
 - Production branch: `main`
 
-If Cloudflare requires a build command, use `npm run build`; the deploy command will still run the OpenNext build before uploading.
+Do not use `npm run build` as the Cloudflare build command for Workers. That only runs the normal Next.js build and does not create the `.open-next` files Wrangler needs.
+
+For local deploys, run:
+
+```cmd
+npm run deploy
+```
 
 The production domain is `https://webhubde.com`.
