@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run build:next && opennextjs-cloudflare build --skipNextBuild",
-    "build:next": "next build",
+    "build:next": "next build --webpack",
     "build:worker": "npm run build",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",

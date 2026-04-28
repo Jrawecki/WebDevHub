@@ -9,8 +9,6 @@ type WorkDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return workIndex.map((entry) => ({ slug: entry.slug }));
 }
