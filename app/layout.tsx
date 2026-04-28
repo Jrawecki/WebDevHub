@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, Newsreader } from "next/font/google";
 
+import { CloudflareWebAnalytics } from "@/components/analytics/cloudflare-web-analytics";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { themeInitScript } from "@/components/layout/theme";
@@ -65,6 +67,8 @@ export default function RootLayout({
           <Footer />
           <ThemeToggle />
         </div>
+        <CloudflareWebAnalytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );
