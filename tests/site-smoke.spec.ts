@@ -878,6 +878,19 @@ test("work detail pages expose screenshot galleries and live links", async ({ pa
   }
 });
 
+test("old watermelon project route redirects to renamed case study", async ({ page }) => {
+  await page.goto("/work/magdas-melons");
+  await page.waitForLoadState("networkidle");
+
+  await expect(page).toHaveURL(/\/work\/watermelonbaskets-com$/);
+  await expect(
+    page.getByRole("heading", {
+      name: "watermelonbaskets.com",
+      level: 1,
+    }),
+  ).toBeVisible();
+});
+
 test("services uses three structured service rows with no decorative chips", async ({ page }) => {
   await page.goto("/services");
   await page.waitForLoadState("networkidle");

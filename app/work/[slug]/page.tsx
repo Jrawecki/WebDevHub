@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import { WorkDetailPageContent } from "@/components/work/work-detail-page";
 import { caseStudies, workIndex } from "@/content/work";
@@ -35,6 +35,11 @@ export default async function WorkDetailPage({
   params,
 }: WorkDetailPageProps) {
   const { slug } = await params;
+
+  if (slug === "magdas-melons") {
+    permanentRedirect("/work/watermelonbaskets-com");
+  }
+
   const caseStudy = getCaseStudyBySlug(slug);
 
   if (!caseStudy) {
