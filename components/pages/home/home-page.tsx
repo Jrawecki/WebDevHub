@@ -161,7 +161,7 @@ export function HomePageContent() {
             <SectionLead
               label="Work"
               title="Work stays on the Work page."
-              intro="That is where I keep the case studies, status, and delivery notes."
+              intro="That is where I keep the case studies, live links, and delivery notes."
             />
             <div className="section-actions-center">
               <Link href="/work" className="cta-link">

@@ -1,10 +1,9 @@
-import Link from "next/link";
-
 import { caseStudies } from "@/content/work";
 
 import {
   RelatedServiceLinks,
-  WorkStatusBadge,
+  WorkActionRow,
+  WorkScreenshotGallery,
 } from "./work-primitives";
 
 export function WorkIndexPage() {
@@ -27,16 +26,18 @@ export function WorkIndexPage() {
                   <div className="project-row__body">
                     <div className="project-row__header">
                       <div className="project-row__meta">
-                        <WorkStatusBadge status={entry.status} />
                         <span>{entry.projectType}</span>
+                        <span>{entry.clientType}</span>
                       </div>
                       <h3>{entry.title}</h3>
                       <p>{entry.summary}</p>
                     </div>
 
+                    <WorkScreenshotGallery screenshots={entry.screenshots} />
+
                     <div className="project-row__details">
                       <div>
-                        <p className="project-row__label">Current state</p>
+                        <p className="project-row__label">Project proof</p>
                         <p>{entry.resultOrCurrentState}</p>
                       </div>
                       <div>
@@ -46,19 +47,7 @@ export function WorkIndexPage() {
                     </div>
 
                     <div className="project-row__actions">
-                      <Link href={`/work/${entry.slug}`} className="cta-link">
-                        View project
-                      </Link>
-                      {entry.liveUrl ? (
-                        <a
-                          href={entry.liveUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="secondary-link"
-                        >
-                          Website
-                        </a>
-                      ) : null}
+                      <WorkActionRow entry={entry} primaryLabel="View project" />
                     </div>
                   </div>
                 </article>

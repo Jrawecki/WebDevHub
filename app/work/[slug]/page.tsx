@@ -27,7 +27,7 @@ export async function generateMetadata({
 
   return {
     title: caseStudy.title,
-    description: `${caseStudy.summary} Current status: ${caseStudy.statusNote}`,
+    description: caseStudy.summary,
   };
 }
 

@@ -32,6 +32,6 @@ export const aboutContent = {
   credibilityPoints: [
     "I work with you from planning through launch to turn the idea into a real website, app, or tool.",
     "I keep scope, review rounds, and responsibilities clear.",
-    "I label project status honestly and avoid claims I cannot support yet.",
+    "I show real project links and proof instead of leaning on vague claims.",
   ],
 } satisfies AboutContent;

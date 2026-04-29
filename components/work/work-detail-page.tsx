@@ -5,7 +5,7 @@ import type { CaseStudyEntry } from "@/lib/content-types";
 import {
   RelatedServiceLinks,
   WorkActionRow,
-  WorkStatusBadge,
+  WorkScreenshotGallery,
 } from "./work-primitives";
 
 type WorkDetailPageContentProps = {
@@ -29,7 +29,6 @@ export function WorkDetailPageContent({
             <span>{caseStudy.title}</span>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <WorkStatusBadge status={caseStudy.status} />
             <span className="rounded-full border border-[color:var(--border)] px-3 py-2 text-sm text-[var(--foreground-soft)]">
               {caseStudy.projectType}
             </span>
@@ -68,7 +67,7 @@ export function WorkDetailPageContent({
 
             <div className="section-stack gap-4">
               <div className="structured-row__block">
-                <p className="structured-row__label">Current state</p>
+                <p className="structured-row__label">Current proof</p>
                 <p className="structured-row__copy">
                   {caseStudy.resultOrCurrentState}
                 </p>
@@ -89,34 +88,19 @@ export function WorkDetailPageContent({
           <div className="layout-balanced work-proof-layout">
             <div className="section-stack gap-4">
               <h2 className="section-title max-w-4xl">
-                Visible proof
+                Screenshots from the live site
               </h2>
               <p className="prose-copy copy-block">{caseStudy.visualProof}</p>
               <p className="text-sm leading-7 text-[color:var(--section-band-foreground-soft)]">
-                These frames are honest portfolio proof for the project status:
-                enough to show structure, scope, and direction without claiming
-                final launch results that are not available yet.
+                These screenshots are captured from live public views so the
+                portfolio proof matches what visitors can open and use today.
               </p>
             </div>
 
-            <div className="proof-frame" aria-label={`${caseStudy.title} proof preview`}>
-              <div className="proof-frame__bar">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="proof-frame__body">
-                <div className="proof-frame__label">{caseStudy.projectType}</div>
-                <h3>{caseStudy.title}</h3>
-                <p>{caseStudy.summary}</p>
-                <div className="proof-frame__rule" />
-                <div className="proof-frame__grid">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </div>
+            <WorkScreenshotGallery
+              screenshots={caseStudy.screenshots}
+              variant="feature"
+            />
           </div>
         </section>
 
@@ -124,25 +108,17 @@ export function WorkDetailPageContent({
           <div className="layout-measure">
             <div className="section-stack gap-3 pb-4">
               <h2 className="section-title max-w-4xl">
-                How the work moved
+                What the build proves
               </h2>
             </div>
 
-            <div className="structured-rows">
+            <div className="build-proof-grid">
               {caseStudy.approach.map((step, index) => (
-                <article key={step} className="structured-row">
-                  <div className="layout-balanced">
-                    <div className="structured-row__head">
-                      <div className="structured-row__meta">
-                        <span className="structured-row__index">
-                          0{index + 1}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="structured-row__block">
-                      <p className="structured-row__copy">{step}</p>
-                    </div>
-                  </div>
+                <article key={step} className="build-proof-item">
+                  <p className="build-proof-item__label">
+                    Proof 0{index + 1}
+                  </p>
+                  <p>{step}</p>
                 </article>
               ))}
             </div>
@@ -204,9 +180,11 @@ export function WorkDetailPageContent({
                   <div className="layout-balanced">
                     <div className="structured-row__head">
                       <div className="structured-row__meta">
-                        <WorkStatusBadge status={entry.status} />
                         <span className="text-sm text-[var(--foreground-muted)]">
                           {entry.projectType}
+                        </span>
+                        <span className="text-sm text-[var(--foreground-muted)]">
+                          {entry.clientType}
                         </span>
                       </div>
                       <h3 className="structured-row__title">{entry.title}</h3>

@@ -18,6 +18,20 @@ const expectedNavigation = [
   "About",
   "Contact",
 ] as const;
+const expectedLiveSites = [
+  {
+    route: "/work/watermelonbaskets-com",
+    url: "https://watermelonbaskets.com/",
+  },
+  {
+    route: "/work/realm-reptiles",
+    url: "https://realmreptiles.com/",
+  },
+  {
+    route: "/work/bizcribe",
+    url: "https://bizcribe.net/",
+  },
+] as const;
 
 async function expectNoHorizontalOverflow(page: Page) {
   const overflow = await page.evaluate(() => {
@@ -612,7 +626,7 @@ test("non-home pages remove bottom dark CTA blocks", async ({ page }) => {
     { route: "/process", text: "Send the business context, the timing, and what you want the website to help you do." },
     { route: "/pricing", text: "Send the brief and I will tell you the right pricing path." },
     { route: "/services", text: "Clear scope before build." },
-    { route: "/work/magdas-melons", text: "Need a project with this kind of scope discipline?" },
+    { route: "/work/watermelonbaskets-com", text: "Need a project with this kind of scope discipline?" },
   ] as const;
 
   for (const { route, text } of removedCopy) {
@@ -790,13 +804,77 @@ test("about band content stays inside the viewport", async ({ page }) => {
   expect(bounds.right).toBeLessThanOrEqual(bounds.viewportWidth);
 });
 
-test("work detail pages expose proof frames without repository links", async ({ page }) => {
-  for (const route of ["/work/magdas-melons", "/work/bizcribe", "/work/realm-reptiles"]) {
+test("work detail pages expose screenshot galleries and live links", async ({ page }) => {
+  for (const { route, url } of expectedLiveSites) {
     await page.goto(route);
     await page.waitForLoadState("networkidle");
 
-    await expect(page.locator(".proof-frame")).toBeVisible();
+    await expect(page.locator(".work-screenshot-gallery--feature")).toBeVisible();
+    await expect(page.locator(".work-shot")).toHaveCount(2);
+    await expect(page.locator(".work-status-badge")).toHaveCount(0);
     await expect(page.getByRole("link", { name: "View GitHub" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "What the build proves" })).toBeVisible();
+
+    const screenshotSectionLayout = await page
+      .locator(".work-proof-layout")
+      .evaluate((section) => {
+        const text = section.querySelector<HTMLElement>(":scope > .section-stack");
+        const gallery = section.querySelector<HTMLElement>(
+          ":scope > .work-screenshot-gallery",
+        );
+        const textRect = text?.getBoundingClientRect();
+        const galleryRect = gallery?.getBoundingClientRect();
+
+        return {
+          textBottom: textRect?.bottom ?? 0,
+          galleryTop: galleryRect?.top ?? 0,
+        };
+      });
+
+    expect(screenshotSectionLayout.galleryTop).toBeGreaterThanOrEqual(
+      screenshotSectionLayout.textBottom - 1,
+    );
+
+    const liveLinks = page.getByRole("link", { name: "Open live site" });
+    await expect(liveLinks).toHaveCount(2);
+    await expect(liveLinks.first()).toHaveAttribute("href", url);
+
+    if (route === "/work/realm-reptiles") {
+      await expect(page.locator(".work-shot--mobile")).toHaveCount(0);
+      await expect(page.locator(".work-screenshot-gallery--paired")).toBeVisible();
+      await expect(page.locator(".work-shot__caption")).toHaveText([
+        "3D enclosure + pricing",
+        "Assembly builder",
+      ]);
+
+      const viewportWidth = page.viewportSize()?.width ?? 1440;
+
+      if (viewportWidth <= 720) {
+        const mobileLayout = await page
+          .locator(".work-screenshot-gallery--feature.work-screenshot-gallery--paired")
+          .evaluate((gallery) => {
+            const shots = Array.from(
+              gallery.querySelectorAll<HTMLElement>(".work-shot"),
+            );
+            const [first, second] = shots.map((shot) =>
+              shot.getBoundingClientRect(),
+            );
+
+            return {
+              firstWidth: first?.width ?? 0,
+              firstBottom: first?.bottom ?? 0,
+              secondTop: second?.top ?? 0,
+              secondWidth: second?.width ?? 0,
+            };
+          });
+
+        expect(mobileLayout.secondTop).toBeGreaterThanOrEqual(
+          mobileLayout.firstBottom - 1,
+        );
+        expect(mobileLayout.firstWidth).toBeGreaterThan(viewportWidth * 0.72);
+        expect(mobileLayout.secondWidth).toBeGreaterThan(viewportWidth * 0.72);
+      }
+    }
   }
 });
 
@@ -828,6 +906,24 @@ test("work uses proof rows with no decorative chips", async ({ page }) => {
   await expect(main.getByRole("link", { name: "Jump to featured work" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "View GitHub" })).toHaveCount(0);
   await expect(page.locator(".proof-row")).toHaveCount(3);
+  await expect(page.locator(".project-row__header h3")).toHaveText([
+    "watermelonbaskets.com",
+    "Realm Reptiles",
+    "Bizcribe",
+  ]);
+  await expect(page.locator(".work-screenshot-gallery--compact")).toHaveCount(3);
+  await expect(page.locator(".work-shot")).toHaveCount(6);
+  await expect(page.locator(".work-shot--mobile")).toHaveCount(2);
+  await expect(page.locator(".work-status-badge")).toHaveCount(0);
+  await expect(page.getByText("3D enclosure + pricing")).toBeVisible();
+  await expect(page.getByText("Assembly builder")).toBeVisible();
+
+  const liveLinks = main.getByRole("link", { name: "Open live site" });
+  await expect(liveLinks).toHaveCount(3);
+  for (const [index, site] of expectedLiveSites.entries()) {
+    await expect(liveLinks.nth(index)).toHaveAttribute("href", site.url);
+  }
+
   await expectNoSectionChips(page);
 });
 

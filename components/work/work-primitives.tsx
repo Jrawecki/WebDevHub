@@ -1,95 +1,19 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { services } from "@/content/services";
 import type {
   CaseStudyEntry,
-  ProjectStatus,
   ServiceSlug,
+  WorkScreenshot,
 } from "@/lib/content-types";
-
-const statusMeta: Record<
-  ProjectStatus,
-  {
-    label: string;
-    summary: string;
-    textColor: string;
-    borderColor: string;
-    background: string;
-    dotColor: string;
-  }
-> = {
-  live: {
-    label: "Live",
-    summary: "Shipped and publicly in use.",
-    textColor: "var(--status-live-text)",
-    borderColor: "var(--status-live-border)",
-    background: "var(--status-live-background)",
-    dotColor: "var(--status-live-dot)",
-  },
-  beta: {
-    label: "Beta",
-    summary: "Usable direction with scope still being refined.",
-    textColor: "var(--status-beta-text)",
-    borderColor: "var(--status-beta-border)",
-    background: "var(--status-beta-background)",
-    dotColor: "var(--status-beta-dot)",
-  },
-  "in-progress": {
-    label: "In Progress",
-    summary: "Active build with launch details still being finished.",
-    textColor: "var(--accent-deep)",
-    borderColor: "var(--status-progress-border)",
-    background: "var(--status-progress-background)",
-    dotColor: "var(--accent)",
-  },
-  "concept-build": {
-    label: "Concept Build",
-    summary: "Honest directional proof rather than a live launch claim.",
-    textColor: "var(--status-concept-text)",
-    borderColor: "var(--status-concept-border)",
-    background: "var(--status-concept-background)",
-    dotColor: "var(--status-concept-dot)",
-  },
-};
 
 const serviceTitleBySlug = new Map<ServiceSlug, string>(
   services.map((service) => [service.slug, service.title]),
 );
 
-export function getStatusMeta(status: ProjectStatus) {
-  return statusMeta[status];
-}
-
 export function getServiceTitle(slug: ServiceSlug) {
   return serviceTitleBySlug.get(slug) ?? slug;
-}
-
-export function WorkStatusBadge({
-  status,
-  className,
-}: {
-  status: ProjectStatus;
-  className?: string;
-}) {
-  const meta = getStatusMeta(status);
-
-  return (
-    <span
-      className={`work-status-badge inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] ${className ?? ""}`}
-      style={{
-        color: meta.textColor,
-        borderColor: meta.borderColor,
-        background: meta.background,
-      }}
-    >
-      <span
-        aria-hidden="true"
-        className="h-2 w-2 rounded-full"
-        style={{ backgroundColor: meta.dotColor }}
-      />
-      {meta.label}
-    </span>
-  );
 }
 
 export function WorkActionRow({
@@ -108,16 +32,84 @@ export function WorkActionRow({
       <Link href={href} className="cta-link">
         {primaryLabel}
       </Link>
-      {entry.liveUrl ? (
-        <a
-          href={entry.liveUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="secondary-link"
-        >
-          Website
-        </a>
-      ) : null}
+      <a
+        href={entry.liveUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="secondary-link"
+      >
+        Open live site
+      </a>
+    </div>
+  );
+}
+
+export function WorkScreenshotGallery({
+  screenshots,
+  variant = "compact",
+}: {
+  screenshots: readonly WorkScreenshot[];
+  variant?: "compact" | "feature";
+}) {
+  const isPairedDesktop = screenshots.every(
+    (screenshot) => screenshot.viewport === "desktop",
+  );
+  const className = [
+    "work-screenshot-gallery",
+    `work-screenshot-gallery--${variant}`,
+    isPairedDesktop ? "work-screenshot-gallery--paired" : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <div
+      className={className}
+      aria-label="Project screenshots"
+    >
+      {screenshots.map((screenshot) => {
+        const isDesktop = screenshot.viewport === "desktop";
+        const defaultDimensions = isDesktop
+          ? { width: 1440, height: 1000 }
+          : { width: 390, height: 844 };
+        const dimensions = {
+          width: screenshot.width ?? defaultDimensions.width,
+          height: screenshot.height ?? defaultDimensions.height,
+        };
+
+        return (
+          <figure
+            key={screenshot.src}
+            className={`work-shot work-shot--${screenshot.viewport}`}
+          >
+            <div className="work-shot__chrome" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="work-shot__image">
+              <Image
+                src={screenshot.src}
+                alt={screenshot.alt}
+                width={dimensions.width}
+                height={dimensions.height}
+                sizes={
+                  isPairedDesktop
+                    ? "(min-width: 1080px) 36vw, (min-width: 720px) 44vw, 92vw"
+                    : isDesktop
+                      ? "(min-width: 900px) 52vw, 92vw"
+                      : "(min-width: 900px) 18vw, 42vw"
+                }
+                loading="eager"
+                className="work-shot__media"
+              />
+            </div>
+            <figcaption className="work-shot__caption">
+              {screenshot.label}
+            </figcaption>
+          </figure>
+        );
+      })}
     </div>
   );
 }

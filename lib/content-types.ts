@@ -4,8 +4,6 @@ export type StudioStatus = "placeholder";
 
 export type ContactMode = "email-only";
 
-export type ProjectStatus = "live" | "beta" | "in-progress" | "concept-build";
-
 export type ServiceSlug =
   | "website-projects"
   | "web-apps-tools"
@@ -18,7 +16,10 @@ export type ProcessSlug =
   | "launch"
   | "support";
 
-export type WorkSlug = "magdas-melons" | "bizcribe" | "realm-reptiles";
+export type WorkSlug =
+  | "watermelonbaskets-com"
+  | "realm-reptiles"
+  | "bizcribe";
 
 export type ContactProjectType =
   | "website"
@@ -140,12 +141,21 @@ export type PricingContent = {
 export type WorkIndexEntry = {
   slug: WorkSlug;
   title: string;
-  status: ProjectStatus;
   clientType: string;
   projectType: string;
   summary: string;
-  statusNote: string;
   featured: boolean;
+  liveUrl: string;
+  screenshots: readonly WorkScreenshot[];
+};
+
+export type WorkScreenshot = {
+  src: string;
+  alt: string;
+  label: string;
+  viewport: "desktop" | "mobile";
+  width?: number;
+  height?: number;
 };
 
 export type CaseStudyEntry = WorkIndexEntry & {
@@ -159,5 +169,4 @@ export type CaseStudyEntry = WorkIndexEntry & {
   resultOrCurrentState: string;
   stack: readonly string[];
   relatedServices: readonly ServiceSlug[];
-  liveUrl?: string;
 };
