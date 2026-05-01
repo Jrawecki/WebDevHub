@@ -2,6 +2,12 @@
 
 import { FormEvent, MouseEvent, useMemo, useState } from "react";
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 type ContactFormProps = {
   brandName: string;
   toEmail: string;
@@ -42,6 +48,13 @@ function buildGmailHref({
   });
 
   return `https://mail.google.com/mail/?${params.toString().replace(/\+/g, "%20")}`;
+}
+
+function trackContactIntent(method: "gmail" | "mailto") {
+  window.gtag?.("event", "generate_lead", {
+    contact_method: method,
+    form_name: "project_inquiry",
+  });
 }
 
 export function ContactForm({ brandName, toEmail }: ContactFormProps) {
@@ -89,6 +102,7 @@ export function ContactForm({ brandName, toEmail }: ContactFormProps) {
 
     setFeedback("Opening your email app with the message ready to send.");
     setIsOpening(true);
+    trackContactIntent("mailto");
     window.location.href = mailtoHref;
     window.setTimeout(() => setIsOpening(false), 1200);
   }
@@ -100,6 +114,7 @@ export function ContactForm({ brandName, toEmail }: ContactFormProps) {
     }
 
     setFeedback("Opening Gmail in your browser with the message ready to send.");
+    trackContactIntent("gmail");
   }
 
   return (
