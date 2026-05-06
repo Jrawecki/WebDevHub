@@ -2,11 +2,7 @@
 
 import { FormEvent, MouseEvent, useMemo, useState } from "react";
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+import { trackGenerateLead } from "@/components/analytics/events";
 
 type ContactFormProps = {
   brandName: string;
@@ -51,9 +47,9 @@ function buildGmailHref({
 }
 
 function trackContactIntent(method: "gmail" | "mailto") {
-  window.gtag?.("event", "generate_lead", {
-    contact_method: method,
-    form_name: "project_inquiry",
+  trackGenerateLead({
+    contactMethod: method,
+    ctaLabel: method === "gmail" ? "Open in Gmail" : "Open email to send",
   });
 }
 
@@ -102,9 +98,18 @@ export function ContactForm({ brandName, toEmail }: ContactFormProps) {
 
     setFeedback("Opening your email app with the message ready to send.");
     setIsOpening(true);
-    trackContactIntent("mailto");
-    window.location.href = mailtoHref;
-    window.setTimeout(() => setIsOpening(false), 1200);
+    trackGenerateLead(
+      {
+        contactMethod: "mailto",
+        ctaLabel: "Open email to send",
+      },
+      {
+        onComplete: () => {
+          window.location.href = mailtoHref;
+          window.setTimeout(() => setIsOpening(false), 1200);
+        },
+      },
+    );
   }
 
   function handleGmailClick(event: MouseEvent<HTMLAnchorElement>) {

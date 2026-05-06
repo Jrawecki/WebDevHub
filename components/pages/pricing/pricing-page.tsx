@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { pricingContent } from "@/content/pricing";
 
 const pricingSections = [
@@ -21,9 +22,13 @@ export function PricingPageContent() {
           built and maintained.
         </p>
         <div className="page-intro__actions">
-          <Link href="/contact" className="cta-link">
+          <TrackedContactLink
+            className="cta-link"
+            contactLocation="pricing_intro"
+            ctaLabel="Start your inquiry"
+          >
             Start your inquiry
-          </Link>
+          </TrackedContactLink>
           <Link href="/services" className="secondary-link">
             Review services
           </Link>

@@ -4,6 +4,8 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
+
 type NavigationItem = {
   href: string;
   label: string;
@@ -85,13 +87,25 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
         <ul className="mobile-nav__list">
           {items.map((item) => (
             <li key={item.href}>
-              <Link
-                href={item.href}
-                className={getMobileNavLinkClassName(item.href)}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
+              {item.href === "/contact" ? (
+                <TrackedContactLink
+                  href={item.href}
+                  className={getMobileNavLinkClassName(item.href)}
+                  contactLocation="mobile_nav"
+                  ctaLabel={item.label}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </TrackedContactLink>
+              ) : (
+                <Link
+                  href={item.href}
+                  className={getMobileNavLinkClassName(item.href)}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>

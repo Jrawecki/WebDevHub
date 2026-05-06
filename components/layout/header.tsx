@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import {
   primaryNavigation,
@@ -26,12 +27,23 @@ export function Header() {
               <ul className="site-nav__list">
                 {primaryNavigation.map((item) => (
                   <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={getNavLinkClassName(item.href)}
-                    >
-                      {item.label}
-                    </Link>
+                    {item.href === "/contact" ? (
+                      <TrackedContactLink
+                        href={item.href}
+                        className={getNavLinkClassName(item.href)}
+                        contactLocation="header_nav"
+                        ctaLabel={item.label}
+                      >
+                        {item.label}
+                      </TrackedContactLink>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={getNavLinkClassName(item.href)}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -43,6 +43,7 @@ export function WorkDetailPageContent({
               entry={caseStudy}
               primaryLabel="Discuss similar work"
               detailHref="/contact"
+              contactLocation="work_detail_intro"
             />
           </div>
         </section>
@@ -160,6 +161,7 @@ export function WorkDetailPageContent({
                   entry={caseStudy}
                   primaryLabel="Start your inquiry"
                   detailHref="/contact"
+                  contactLocation="work_detail_deliverables"
                 />
               </div>
             </div>

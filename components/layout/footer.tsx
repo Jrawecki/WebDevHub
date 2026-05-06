@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import {
   primaryNavigation,
   SiteBrand,
@@ -31,7 +32,17 @@ export function Footer() {
             <ul className="footer-list footer-list--columns">
               {primaryNavigation.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href}>{item.label}</Link>
+                  {item.href === "/contact" ? (
+                    <TrackedContactLink
+                      href={item.href}
+                      contactLocation="footer_nav"
+                      ctaLabel={item.label}
+                    >
+                      {item.label}
+                    </TrackedContactLink>
+                  ) : (
+                    <Link href={item.href}>{item.label}</Link>
+                  )}
                 </li>
               ))}
             </ul>

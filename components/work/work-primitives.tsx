@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { services } from "@/content/services";
 import type {
   CaseStudyEntry,
@@ -20,18 +21,31 @@ export function WorkActionRow({
   entry,
   primaryLabel = "Read case study",
   detailHref,
+  contactLocation = "work_action",
 }: {
   entry: CaseStudyEntry;
   primaryLabel?: string;
   detailHref?: string;
+  contactLocation?: string;
 }) {
   const href = detailHref ?? `/work/${entry.slug}`;
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <Link href={href} className="cta-link">
-        {primaryLabel}
-      </Link>
+      {href === "/contact" ? (
+        <TrackedContactLink
+          href={href}
+          className="cta-link"
+          contactLocation={contactLocation}
+          ctaLabel={primaryLabel}
+        >
+          {primaryLabel}
+        </TrackedContactLink>
+      ) : (
+        <Link href={href} className="cta-link">
+          {primaryLabel}
+        </Link>
+      )}
       <a
         href={entry.liveUrl}
         target="_blank"

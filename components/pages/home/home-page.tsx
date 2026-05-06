@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { aboutContent } from "@/content/about";
 import { contactContent } from "@/content/contact";
 import { processSteps } from "@/content/process";
@@ -42,9 +43,13 @@ export function HomePageContent() {
             </div>
 
             <div className="section-actions-center">
-              <Link href="/contact" className="cta-link">
+              <TrackedContactLink
+                className="cta-link"
+                contactLocation="home_hero"
+                ctaLabel="Start your inquiry"
+              >
                 Start your inquiry
-              </Link>
+              </TrackedContactLink>
               <Link href="/services" className="secondary-link">
                 See services
               </Link>
@@ -184,9 +189,13 @@ export function HomePageContent() {
                 {contactContent.responseExpectation}
               </p>
               <div className="section-actions-center pt-1">
-                <Link href="/contact" className="cta-link">
+                <TrackedContactLink
+                  className="cta-link"
+                  contactLocation="home_contact_band"
+                  ctaLabel="Start your inquiry"
+                >
                   Start your inquiry
-                </Link>
+                </TrackedContactLink>
                 <Link href="/pricing" className="secondary-link secondary-link--inverse">
                   How pricing works
                 </Link>

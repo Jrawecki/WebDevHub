@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { services } from "@/content/services";
 
 export function ServicesPageContent() {
@@ -12,9 +13,13 @@ export function ServicesPageContent() {
           around what the business needs to explain, sell, or operate better.
         </p>
         <div className="page-intro__actions">
-          <Link href="/contact" className="cta-link">
+          <TrackedContactLink
+            className="cta-link"
+            contactLocation="services_intro"
+            ctaLabel="Start your inquiry"
+          >
             Start your inquiry
-          </Link>
+          </TrackedContactLink>
           <Link href="/pricing" className="secondary-link">
             See pricing
           </Link>
