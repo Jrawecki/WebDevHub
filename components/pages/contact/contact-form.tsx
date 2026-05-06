@@ -1,6 +1,11 @@
 "use client";
 
-import { FormEvent, MouseEvent, useMemo, useState } from "react";
+import {
+  type FormEvent,
+  type KeyboardEvent,
+  type MouseEvent,
+  useState,
+} from "react";
 
 import { trackGenerateLead } from "@/components/analytics/events";
 
@@ -9,135 +14,163 @@ type ContactFormProps = {
   toEmail: string;
 };
 
-function buildMailtoHref({
-  brandName,
-  message,
-  toEmail,
-}: {
-  brandName: string;
-  message: string;
-  toEmail: string;
-}) {
-  const params = new URLSearchParams({
-    subject: `Project inquiry for ${brandName}`,
-    body: ["Request:", message].join("\n"),
-  });
-
-  return `mailto:${toEmail}?${params.toString().replace(/\+/g, "%20")}`;
-}
-
-function buildGmailHref({
-  brandName,
-  message,
-  toEmail,
-}: {
-  brandName: string;
-  message: string;
-  toEmail: string;
-}) {
-  const params = new URLSearchParams({
-    view: "cm",
-    fs: "1",
-    to: toEmail,
-    su: `Project inquiry for ${brandName}`,
-    body: ["Request:", message].join("\n"),
-  });
-
-  return `https://mail.google.com/mail/?${params.toString().replace(/\+/g, "%20")}`;
-}
-
-function trackContactIntent(method: "gmail" | "mailto") {
-  trackGenerateLead({
-    contactMethod: method,
-    ctaLabel: method === "gmail" ? "Open in Gmail" : "Open email to send",
-  });
+function hasValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 export function ContactForm({ brandName, toEmail }: ContactFormProps) {
-  const [message, setMessage] = useState("");
   const [feedback, setFeedback] = useState("");
-  const [isOpening, setIsOpening] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const trimmedMessage = message.trim();
+  const formSubmitAction = `https://formsubmit.co/${toEmail}`;
+  const formSubmitAjaxAction = `https://formsubmit.co/ajax/${toEmail}`;
+  const contactThanksPath = "/contact/thanks";
+  const formSubmitNextUrl = "https://webhubde.com/contact/thanks";
 
-  const mailtoHref = useMemo(
-    () =>
-      buildMailtoHref({
-        brandName,
-        message: trimmedMessage,
-        toEmail,
-      }),
-    [brandName, toEmail, trimmedMessage],
-  );
+  async function postToFormSubmit(form: HTMLFormElement) {
+    try {
+      const response = await fetch(formSubmitAjaxAction, {
+        method: "POST",
+        body: new FormData(form),
+        headers: {
+          Accept: "application/json",
+        },
+      });
 
-  const gmailHref = useMemo(
-    () =>
-      buildGmailHref({
-        brandName,
-        message: trimmedMessage,
-        toEmail,
-      }),
-    [brandName, toEmail, trimmedMessage],
-  );
+      if (!response.ok) {
+        throw new Error("FormSubmit request failed.");
+      }
 
-  function validateFields() {
-    if (!trimmedMessage) {
-      setFeedback("Tell me what you need help with.");
-      return false;
+      window.location.assign(contactThanksPath);
+    } catch {
+      setFeedback("Something went wrong. Please try again in a moment.");
+      setIsSubmitting(false);
     }
-
-    return true;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (!validateFields()) {
+  function submitForm(form: HTMLFormElement) {
+    if (isSubmitting) {
       return;
     }
 
-    setFeedback("Opening your email app with the message ready to send.");
-    setIsOpening(true);
+    const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+
+    if (!name) {
+      setFeedback("Add your name so I know who the request is from.");
+      return;
+    }
+
+    if (!email || !hasValidEmail(email)) {
+      setFeedback("Add a valid email address so I can reply.");
+      return;
+    }
+
+    if (!message) {
+      setFeedback("Tell me what you need help with.");
+      return;
+    }
+
+    setFeedback("Sending your request.");
+    setIsSubmitting(true);
     trackGenerateLead(
       {
-        contactMethod: "mailto",
-        ctaLabel: "Open email to send",
+        contactMethod: "formsubmit",
+        ctaLabel: "Send project inquiry",
       },
       {
         onComplete: () => {
-          window.location.href = mailtoHref;
-          window.setTimeout(() => setIsOpening(false), 1200);
+          void postToFormSubmit(form);
         },
       },
     );
   }
 
-  function handleGmailClick(event: MouseEvent<HTMLAnchorElement>) {
-    if (!validateFields()) {
-      event.preventDefault();
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    submitForm(event.currentTarget);
+  }
+
+  function handleSubmitClick(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const form = event.currentTarget.form;
+
+    if (!form) {
       return;
     }
 
-    setFeedback("Opening Gmail in your browser with the message ready to send.");
-    trackContactIntent("gmail");
+    submitForm(form);
+  }
+
+  function handleFormKeyDown(event: KeyboardEvent<HTMLFormElement>) {
+    if (event.key !== "Enter" || event.target instanceof HTMLTextAreaElement) {
+      return;
+    }
+
+    event.preventDefault();
+    submitForm(event.currentTarget);
   }
 
   return (
     <form
       className="contact-form"
-      data-mailto-href={mailtoHref}
-      data-gmail-href={gmailHref}
+      action={formSubmitAction}
+      method="POST"
+      data-formsubmit-ajax={formSubmitAjaxAction}
+      data-formsubmit-next={formSubmitNextUrl}
       onSubmit={handleSubmit}
-      noValidate
+      onKeyDown={handleFormKeyDown}
     >
+      <input
+        type="hidden"
+        name="_subject"
+        value={`Project inquiry for ${brandName}`}
+      />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value={formSubmitNextUrl} />
+      <input
+        type="text"
+        name="_honey"
+        className="contact-form__honeypot"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+
+      <div className="contact-field">
+        <label htmlFor="contact-name">Name</label>
+        <input
+          id="contact-name"
+          name="name"
+          type="text"
+          autoComplete="name"
+          required
+          placeholder="Your name"
+        />
+      </div>
+
+      <div className="contact-field">
+        <label htmlFor="contact-email">Email address</label>
+        <input
+          id="contact-email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          placeholder="you@example.com"
+        />
+      </div>
+
       <div className="contact-field">
         <label htmlFor="contact-message">Project/request message</label>
         <textarea
           id="contact-message"
           name="message"
           rows={7}
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          required
           placeholder="Tell me what you need help with."
         />
       </div>
@@ -149,18 +182,14 @@ export function ContactForm({ brandName, toEmail }: ContactFormProps) {
       ) : null}
 
       <div className="contact-form__actions">
-        <button type="submit" className="cta-link" disabled={isOpening}>
-          {isOpening ? "Opening email..." : "Open email to send"}
-        </button>
-        <a
-          href={gmailHref}
-          target="_blank"
-          rel="noreferrer"
-          className="secondary-link"
-          onClick={handleGmailClick}
+        <button
+          type="submit"
+          className="cta-link"
+          disabled={isSubmitting}
+          onClick={handleSubmitClick}
         >
-          Open in Gmail
-        </a>
+          {isSubmitting ? "Sending request..." : "Send project inquiry"}
+        </button>
       </div>
     </form>
   );

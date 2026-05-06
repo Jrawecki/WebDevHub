@@ -24,7 +24,7 @@ type ContactClickDetails = {
 };
 
 type LeadDetails = {
-  contactMethod: "gmail" | "mailto";
+  contactMethod: "formsubmit" | "gmail" | "mailto";
   contactLocation?: string;
   ctaLabel: string;
   leadSource?: string;

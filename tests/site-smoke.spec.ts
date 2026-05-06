@@ -1,6 +1,26 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
 
 const themeStorageKey = "kuba-rawecki-theme";
+const analyticsEventsStorageKey = "site-smoke-analytics-events";
+type AnalyticsEventRecord = {
+  command: string;
+  eventName: string;
+  params: Record<string, unknown>;
+};
+type TestWindow = Window & {
+  __analyticsEvents?: AnalyticsEventRecord[];
+  __formSubmits?: number;
+  gtag?: (
+    command: string,
+    eventName: string,
+    params?: Record<string, unknown>,
+  ) => void;
+};
+type AnalyticsRecorderOptions = {
+  preventFormSubmit?: boolean;
+  runCallbacks?: boolean;
+};
+
 const oldBriefPrompts = [
   "Business + what you need:",
   "Business and need",
@@ -265,6 +285,113 @@ async function setStoredTheme(page: Page, theme: "light" | "dark") {
     },
     [themeStorageKey, theme] as const,
   );
+}
+
+async function installAnalyticsRecorder(
+  page: Page,
+  options: AnalyticsRecorderOptions = {},
+) {
+  const installRecorder = ({
+    preventFormSubmit,
+    runCallbacks,
+    storageKey,
+  }: AnalyticsRecorderOptions & { storageKey: string }) => {
+    const testWindow = window as TestWindow;
+
+    function readStoredEvents() {
+      try {
+        const value = window.sessionStorage.getItem(storageKey);
+        return value ? (JSON.parse(value) as AnalyticsEventRecord[]) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function writeStoredEvents(events: AnalyticsEventRecord[]) {
+      try {
+        window.sessionStorage.setItem(storageKey, JSON.stringify(events));
+      } catch {
+        // Keep the in-memory events even if sessionStorage is blocked.
+      }
+    }
+
+    testWindow.__analyticsEvents = readStoredEvents();
+
+    if (preventFormSubmit) {
+      testWindow.__formSubmits = 0;
+      HTMLFormElement.prototype.submit = function submit() {
+        testWindow.__formSubmits = (testWindow.__formSubmits ?? 0) + 1;
+      };
+    }
+
+    testWindow.gtag = (
+      command: string,
+      eventName: string,
+      params: Record<string, unknown> = {},
+    ) => {
+      const eventCallback = params.event_callback;
+      const serializableParams = Object.fromEntries(
+        Object.entries(params).filter(([, value]) => typeof value !== "function"),
+      );
+
+      testWindow.__analyticsEvents?.push({
+        command,
+        eventName,
+        params: serializableParams,
+      });
+      writeStoredEvents(testWindow.__analyticsEvents ?? []);
+
+      if (runCallbacks && typeof eventCallback === "function") {
+        eventCallback();
+      }
+    };
+  };
+
+  const payload = {
+    ...options,
+    storageKey: analyticsEventsStorageKey,
+  };
+
+  await page.addInitScript(installRecorder, payload);
+  await page.evaluate(installRecorder, payload);
+}
+
+async function hasAnalyticsEvent(
+  page: Page,
+  eventName: string,
+  expectedParams: Record<string, string | number | boolean>,
+) {
+  return page.evaluate(
+    ([name, params]) => {
+      const testWindow = window as TestWindow;
+      const events =
+        testWindow.__analyticsEvents ??
+        JSON.parse(
+          window.sessionStorage.getItem("site-smoke-analytics-events") ?? "[]",
+        );
+
+      return events.some((event) => {
+        if (event.command !== "event" || event.eventName !== name) {
+          return false;
+        }
+
+        return Object.entries(params).every(
+          ([key, value]) => event.params[key] === value,
+        );
+      });
+    },
+    [eventName, expectedParams] as const,
+  );
+}
+
+async function expectAnalyticsEvent(
+  page: Page,
+  eventName: string,
+  expectedParams: Record<string, string | number | boolean>,
+) {
+  await expect
+    .poll(() => hasAnalyticsEvent(page, eventName, expectedParams))
+    .toBe(true);
 }
 
 for (const route of ["/", "/services", "/pricing", "/process", "/about", "/work", "/contact"]) {
@@ -660,7 +787,7 @@ test("footer promo copy and extra footer CTA are removed", async ({ page }) => {
   await expect(page.locator(".footer-list--contact a")).toHaveCount(0);
 });
 
-test("contact page uses a frontend-only mailto form", async ({ page }) => {
+test("contact page posts to FormSubmit with reply fields", async ({ page }) => {
   await page.goto("/contact");
   await page.waitForLoadState("networkidle");
 
@@ -676,35 +803,134 @@ test("contact page uses a frontend-only mailto form", async ({ page }) => {
   await expect(main.getByText("Business and need", { exact: true })).toHaveCount(0);
   await expect(main.getByText("Website, app, tool, or both", { exact: true })).toHaveCount(0);
   await expect(main.getByText("Timing or useful context", { exact: true })).toHaveCount(0);
-  await expect(main.getByLabel("Email address")).toHaveCount(0);
   await expect(main.locator(".contact-hero__copy .contact-form")).toBeVisible();
+  await expect(main.getByLabel("Name")).toBeVisible();
+  await expect(main.getByLabel("Email address")).toBeVisible();
   await expect(main.getByLabel("Project/request message")).toBeVisible();
-  await expect(main.getByRole("button", { name: "Open email to send" })).toBeVisible();
-  await expect(main.getByRole("link", { name: "Open in Gmail" })).toBeVisible();
+  await expect(main.getByRole("button", { name: "Send project inquiry" })).toBeVisible();
+  await expect(main.getByRole("link", { name: "Open in Gmail" })).toHaveCount(0);
 
-  await main.getByRole("button", { name: "Open email to send" }).click();
+  await expect(form).toHaveAttribute("method", "POST");
+  await expect(form).toHaveAttribute("action", "https://formsubmit.co/jrawecki31@gmail.com");
+  await expect(form).toHaveAttribute("data-formsubmit-ajax", "https://formsubmit.co/ajax/jrawecki31@gmail.com");
+  await expect(form.locator('input[name="_subject"]')).toHaveValue("Project inquiry for Kuba's Web Dev Hub");
+  await expect(form.locator('input[name="_template"]')).toHaveValue("table");
+  await expect(form.locator('input[name="_captcha"]')).toHaveValue("false");
+  await expect(form.locator('input[name="_next"]')).toHaveValue("https://webhubde.com/contact/thanks");
+  await expect(form.locator('input[name="_honey"]')).toHaveCount(1);
+
+  await main.getByRole("button", { name: "Send project inquiry" }).click();
+  await expect(main.getByText("Add your name so I know who the request is from.")).toBeVisible();
+
+  await main.getByLabel("Name").fill("Kuba");
+  await main.getByRole("button", { name: "Send project inquiry" }).click();
+  await expect(main.getByText("Add a valid email address so I can reply.")).toBeVisible();
+
+  await main.getByLabel("Email address").fill("not-an-email");
+  await main.getByRole("button", { name: "Send project inquiry" }).click();
+  await expect(main.getByText("Add a valid email address so I can reply.")).toBeVisible();
+
+  await main.getByLabel("Email address").fill("visitor@example.com");
+  await main.getByRole("button", { name: "Send project inquiry" }).click();
   await expect(main.getByText("Tell me what you need help with.")).toBeVisible();
 
+  await main.getByLabel("Name").fill("Kuba");
+  await main.getByLabel("Email address").fill("visitor@example.com");
   await main.getByLabel("Project/request message").fill("I need a landing page for a Delaware business.");
+  await expect(form.locator('input[name="name"]')).toHaveValue("Kuba");
+  await expect(form.locator('input[name="email"]')).toHaveValue("visitor@example.com");
+  await expect(form.locator('textarea[name="message"]')).toHaveValue("I need a landing page for a Delaware business.");
+});
 
-  const mailtoHref = await form.getAttribute("data-mailto-href");
-  expect(mailtoHref).not.toBeNull();
-  const decodedMailtoHref = decodeURIComponent(mailtoHref!);
-  expect(mailtoHref).toContain("mailto:jrawecki31@gmail.com");
-  expect(decodedMailtoHref).toContain("Project inquiry for Kuba's Web Dev Hub");
-  expect(decodedMailtoHref).not.toContain("Visitor email:");
-  expect(decodedMailtoHref).not.toContain("example.com");
-  expect(decodedMailtoHref).toContain("I need a landing page for a Delaware business.");
+test("contact thank-you route confirms submission", async ({ page }) => {
+  await page.goto("/contact/thanks");
+  await page.waitForLoadState("networkidle");
 
-  const gmailHref = await form.getAttribute("data-gmail-href");
-  expect(gmailHref).not.toBeNull();
-  const decodedGmailHref = decodeURIComponent(gmailHref!);
-  expect(gmailHref).toContain("https://mail.google.com/mail/");
-  expect(gmailHref).toContain("to=jrawecki31%40gmail.com");
-  expect(decodedGmailHref).toContain("Project inquiry for Kuba's Web Dev Hub");
-  expect(decodedGmailHref).not.toContain("Visitor email:");
-  expect(decodedGmailHref).not.toContain("example.com");
-  expect(decodedGmailHref).toContain("I need a landing page for a Delaware business.");
+  await expect(page.locator("main")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Request sent." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Back to home" })).toHaveAttribute("href", "/");
+});
+
+test("contact navigation sends contact click analytics", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await installAnalyticsRecorder(page);
+
+  const mobileToggle = page.locator(".mobile-nav__toggle");
+  const isMobileMenu = await mobileToggle.isVisible();
+
+  if (isMobileMenu) {
+    await mobileToggle.click();
+    await page.locator(".mobile-nav__link--highlight").click();
+    await expectAnalyticsEvent(page, "contact_click", {
+      contact_method: "site_cta",
+      contact_location: "mobile_nav",
+      lead_source: "site_cta",
+      cta_label: "Contact",
+      link_url: "/contact",
+    });
+  } else {
+    await page.locator(".site-nav__link--highlight").click();
+    await expectAnalyticsEvent(page, "contact_click", {
+      contact_method: "site_cta",
+      contact_location: "header_nav",
+      lead_source: "site_cta",
+      cta_label: "Contact",
+      link_url: "/contact",
+    });
+  }
+
+  await expect(page).toHaveURL(/\/contact$/);
+});
+
+test("home contact CTA sends contact click analytics", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await installAnalyticsRecorder(page);
+
+  await page.getByRole("link", { name: "Start your inquiry" }).first().click();
+
+  await expectAnalyticsEvent(page, "contact_click", {
+    contact_method: "site_cta",
+    contact_location: "home_hero",
+    lead_source: "site_cta",
+    cta_label: "Start your inquiry",
+    link_url: "/contact",
+  });
+  await expect(page).toHaveURL(/\/contact$/);
+});
+
+test("contact form sends lead analytics before FormSubmit AJAX redirect", async ({ page }) => {
+  await page.route("https://formsubmit.co/ajax/**", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        success: "true",
+      }),
+    });
+  });
+
+  await page.goto("/contact");
+  await page.waitForLoadState("networkidle");
+  await installAnalyticsRecorder(page, {
+    runCallbacks: true,
+  });
+
+  const main = page.locator("main");
+  await main.getByLabel("Name").fill("Kuba");
+  await main.getByLabel("Email address").fill("visitor@example.com");
+  await main.getByLabel("Project/request message").fill("I need a landing page for a Delaware business.");
+  await main.getByRole("button", { name: "Send project inquiry" }).click();
+
+  await expectAnalyticsEvent(page, "generate_lead", {
+    contact_method: "formsubmit",
+    contact_location: "contact_form",
+    lead_source: "project_inquiry",
+    cta_label: "Send project inquiry",
+    form_name: "project_inquiry",
+  });
+  await expect(page).toHaveURL(/\/contact\/thanks$/);
 });
 
 test("home notes use neutral borders instead of accent top rules", async ({ page }) => {

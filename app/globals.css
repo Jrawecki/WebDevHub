@@ -922,6 +922,7 @@ textarea {
   text-transform: uppercase;
 }
 
+.contact-field input,
 .contact-field textarea {
   width: 100%;
   border: 1px solid var(--border);
@@ -941,11 +942,19 @@ textarea {
   resize: vertical;
 }
 
+.contact-field input:focus,
 .contact-field textarea:focus {
   outline: none;
   border-color: var(--accent-border);
   background: var(--surface-strong);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.contact-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .contact-form__feedback {
