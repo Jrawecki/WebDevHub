@@ -8,9 +8,7 @@ export function PricingPageContent() {
     eyebrow,
     title,
     intro,
-    websitePackages,
-    quickTool,
-    workflowApp,
+    primaryOffers,
     launchSupport,
     carePlans,
     scopeNote,
@@ -18,8 +16,6 @@ export function PricingPageContent() {
     primaryCtaLabel,
     secondaryCtaLabel,
   } = pricingContent;
-
-  const toolOffers = [quickTool, workflowApp];
 
   return (
     <div className="pricing-page">
@@ -41,14 +37,14 @@ export function PricingPageContent() {
       </section>
 
       <div className="layout-measure pricing-overview">
-        <section className="pricing-block pricing-block--websites">
+        <section className="pricing-block pricing-block--offers">
           <div className="pricing-block__heading">
-            <p className="section-label">Websites</p>
-            <h2 className="section-title">Choose by page count.</h2>
+            <p className="section-label">Project options</p>
+            <h2 className="section-title">Choose the right starting point.</h2>
           </div>
 
           <div className="pricing-plan-grid">
-            {websitePackages.map((packageItem) => (
+            {primaryOffers.map((packageItem) => (
               <article className="pricing-plan" key={packageItem.title}>
                 <div className="pricing-plan__topline">
                   <h3>{packageItem.title}</h3>
@@ -63,27 +59,6 @@ export function PricingPageContent() {
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="pricing-block">
-          <div className="pricing-block__heading">
-            <p className="section-label">Tools and apps</p>
-            <h2 className="section-title">Start with the smallest useful version.</h2>
-          </div>
-
-          <div className="pricing-offer-list">
-            {toolOffers.map((offer) => (
-              <article className="pricing-offer" key={offer.title}>
-                <div className="pricing-offer__name">
-                  <h3>{offer.title}</h3>
-                  <p>{offer.summary}</p>
-                </div>
-                <p className="pricing-offer__details">{offer.includes.join(" · ")}</p>
-                <p className="pricing-offer__price">{offer.price}</p>
-              </article>
-            ))}
-          </div>
-          <p className="pricing-discovery-note">{workflowApp.discoveryNote}</p>
         </section>
 
         <section className="pricing-block pricing-block--care">

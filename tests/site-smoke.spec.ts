@@ -957,18 +957,18 @@ test("pricing page publishes website, tool, and care starting prices", async ({ 
   await expect(
     page.getByRole("heading", { name: "Straightforward prices. Clear scope." }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Landing Page" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Core Website" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Simple Website / Landing Page" }),
+  ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Expanded Website" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Quick Tool" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Workflow Apps" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tools & Apps" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Extended Launch Care" })).toBeVisible();
 
   await expect(page.getByText("$199", { exact: true })).toBeVisible();
   await expect(page.getByText("$599", { exact: true })).toBeVisible();
-  await expect(page.getByText("$799", { exact: true })).toBeVisible();
+  await expect(page.getByText("$799", { exact: true })).toHaveCount(0);
   await expect(page.getByText("From $500", { exact: true })).toBeVisible();
-  await expect(page.getByText("From $1,500", { exact: true })).toBeVisible();
+  await expect(page.getByText("Workflow apps from $1,500", { exact: true })).toBeVisible();
   await expect(page.getByText("$29/mo", { exact: true })).toBeVisible();
   await expect(page.getByText("Common feature additions", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Scope notes", { exact: true })).toHaveCount(0);
@@ -1019,7 +1019,7 @@ test("home page surfaces starting prices for each service family", async ({ page
   await page.goto("/");
   await page.waitForLoadState("networkidle");
 
-  await expect(page.getByText("Landing pages from $199", { exact: true })).toBeVisible();
+  await expect(page.getByText("Simple sites from $199", { exact: true })).toBeVisible();
   await expect(page.getByText("Tools from $500", { exact: true })).toBeVisible();
   await expect(page.getByText("Care from $29/mo", { exact: true })).toBeVisible();
 });

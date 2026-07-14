@@ -136,11 +136,7 @@ export type PricingContent = {
   eyebrow: string;
   title: string;
   intro: string;
-  websitePackages: readonly PricingPackage[];
-  quickTool: PricingPackage;
-  workflowApp: PricingPackage & {
-    discoveryNote: string;
-  };
+  primaryOffers: readonly PricingPackage[];
   launchSupport: {
     title: string;
     body: string;

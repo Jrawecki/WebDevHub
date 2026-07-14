@@ -801,7 +801,6 @@ textarea {
 .pricing-intro__row,
 .pricing-intro__copy,
 .pricing-block__heading,
-.pricing-offer__name,
 .pricing-footer__action {
   display: grid;
 }
@@ -843,7 +842,6 @@ textarea {
 }
 
 .pricing-plan-grid,
-.pricing-offer-list,
 .pricing-care-grid {
   display: grid;
   border-top: 1px solid var(--border);
@@ -867,7 +865,6 @@ textarea {
 }
 
 .pricing-plan h3,
-.pricing-offer h3,
 .pricing-care h3 {
   margin: 0;
   color: var(--foreground);
@@ -879,7 +876,6 @@ textarea {
 }
 
 .pricing-plan__topline > p,
-.pricing-offer__price,
 .pricing-care__topline > p {
   margin: 0;
   color: var(--accent-deep);
@@ -916,24 +912,6 @@ textarea {
   content: "—";
 }
 
-.pricing-offer {
-  display: grid;
-  gap: 0.5rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.pricing-offer:last-child {
-  border-bottom: 0;
-}
-
-.pricing-offer__name {
-  gap: 0.25rem;
-}
-
-.pricing-offer__name > p,
-.pricing-offer__details,
-.pricing-discovery-note,
 .pricing-care-intro > p,
 .pricing-care > p,
 .pricing-footer__scope,
@@ -941,25 +919,6 @@ textarea {
   margin: 0;
   color: var(--foreground-soft);
   line-height: 1.55;
-}
-
-.pricing-offer__name > p,
-.pricing-offer__details {
-  font-size: 0.82rem;
-}
-
-.pricing-offer__details {
-  color: var(--foreground-muted);
-}
-
-.pricing-offer__price {
-  justify-self: start;
-}
-
-.pricing-discovery-note {
-  max-width: 58rem;
-  margin-top: 0.75rem;
-  font-size: 0.78rem;
 }
 
 .pricing-care-intro {
@@ -1946,14 +1905,9 @@ html[data-theme="dark"] .mobile-nav__toggle[aria-expanded="true"] {
     min-height: 2.55rem;
   }
 
-  .pricing-offer {
-    grid-template-columns: minmax(14rem, 0.9fr) minmax(0, 1.25fr) max-content;
-    gap: 1.25rem;
-    align-items: center;
-  }
-
-  .pricing-offer__price {
-    justify-self: end;
+  .pricing-plan__topline {
+    min-height: 2.35rem;
+    align-items: flex-start;
   }
 
   .pricing-care-intro {
