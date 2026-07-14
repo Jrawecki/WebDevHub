@@ -1878,7 +1878,10 @@ html[data-theme="dark"] .mobile-nav__toggle[aria-expanded="true"] {
     justify-self: end;
   }
 
-  .pricing-plan-grid,
+  .pricing-plan-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .pricing-care-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1887,18 +1890,22 @@ html[data-theme="dark"] .mobile-nav__toggle[aria-expanded="true"] {
     min-width: 0;
     padding: 0.95rem clamp(0.9rem, 1.5vw, 1.3rem);
     border-right: 1px solid var(--border);
-    border-bottom: 0;
+    border-bottom: 1px solid var(--border);
   }
 
-  .pricing-plan:first-child,
+  .pricing-plan:nth-child(odd),
   .pricing-care:first-child {
     padding-left: 0;
   }
 
-  .pricing-plan:last-child,
+  .pricing-plan:nth-child(even),
   .pricing-care:last-child {
     padding-right: 0;
     border-right: 0;
+  }
+
+  .pricing-plan:nth-last-child(-n + 2) {
+    border-bottom: 0;
   }
 
   .pricing-plan__summary {
@@ -1927,6 +1934,30 @@ html[data-theme="dark"] .mobile-nav__toggle[aria-expanded="true"] {
     grid-template-columns: minmax(0, 1fr) max-content;
     gap: 2rem;
     align-items: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .pricing-plan-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .pricing-plan,
+  .pricing-plan:nth-child(odd),
+  .pricing-plan:nth-child(even) {
+    padding-right: clamp(0.8rem, 1.2vw, 1.1rem);
+    padding-left: clamp(0.8rem, 1.2vw, 1.1rem);
+    border-right: 1px solid var(--border);
+    border-bottom: 0;
+  }
+
+  .pricing-plan:first-child {
+    padding-left: 0;
+  }
+
+  .pricing-plan:last-child {
+    padding-right: 0;
+    border-right: 0;
   }
 }
 

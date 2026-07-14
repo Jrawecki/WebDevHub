@@ -950,7 +950,7 @@ test("home notes use neutral borders instead of accent top rules", async ({ page
   expect(borders.topColor).not.toBe("rgba(176, 87, 53, 0.18)");
 });
 
-test("pricing page publishes website, tool, and care starting prices", async ({ page }) => {
+test("pricing page separates website tools from full-stack app pricing", async ({ page }) => {
   await page.goto("/pricing");
   await page.waitForLoadState("networkidle");
 
@@ -961,14 +961,24 @@ test("pricing page publishes website, tool, and care starting prices", async ({ 
     page.getByRole("heading", { name: "Simple Website / Landing Page" }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Expanded Website" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Tools & Apps" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Website + Custom Tool" }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Full-Stack Web App" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Extended Launch Care" })).toBeVisible();
 
   await expect(page.getByText("$199", { exact: true })).toBeVisible();
   await expect(page.getByText("$599", { exact: true })).toBeVisible();
   await expect(page.getByText("$799", { exact: true })).toHaveCount(0);
-  await expect(page.getByText("From $500", { exact: true })).toBeVisible();
-  await expect(page.getByText("Workflow apps from $1,500", { exact: true })).toBeVisible();
+  await expect(page.getByText("From $500", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("From $1,500", { exact: true })).toBeVisible();
+  await expect(page.getByText("From $4,000", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Category filters, calculators, selectors, or intake", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("One inventory, request, or record workflow", { exact: true }),
+  ).toBeVisible();
   await expect(page.getByText("$29/mo", { exact: true })).toBeVisible();
   await expect(page.getByText("Common feature additions", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Scope notes", { exact: true })).toHaveCount(0);
@@ -1020,7 +1030,7 @@ test("home page surfaces starting prices for each service family", async ({ page
   await page.waitForLoadState("networkidle");
 
   await expect(page.getByText("Simple sites from $199", { exact: true })).toBeVisible();
-  await expect(page.getByText("Tools from $500", { exact: true })).toBeVisible();
+  await expect(page.getByText("Tools $1,500+ · Apps $4,000+", { exact: true })).toBeVisible();
   await expect(page.getByText("Care from $29/mo", { exact: true })).toBeVisible();
 });
 

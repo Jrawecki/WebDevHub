@@ -25,21 +25,21 @@ export const services = [
   {
     slug: "web-apps-tools",
     title: "Web Apps and Tools",
-    priceFrom: "Tools from $500",
+    priceFrom: "Tools $1,500+ · Apps $4,000+",
     summary:
-      "Portals, dashboards, intake systems, and lightweight business apps for workflows that need more than a normal web page.",
+      "Interactive website features and full-stack business apps, from category filters and calculators to inventory trackers and internal dashboards.",
     audienceFit:
-      "Best for businesses that have a repeated workflow, client process, or internal task that should be easier to track and manage.",
+      "Best for businesses that need more than static pages: either one useful customer-facing tool or a focused workflow backed by accounts and data.",
     primaryOutcome:
-      "A focused web app or tool that makes a real business workflow easier to use, review, and maintain.",
+      "A focused tool or first-release app that makes a customer action or business workflow easier to complete, track, and manage.",
     deliverables: [
       "Workflow and user-path mapping",
-      "Portal, dashboard, intake, or internal-tool scope",
-      "Core interface, state, and data-flow planning",
-      "Build path for the first useful release",
+      "Defined scope for the website tool or web app",
+      "Interface, state, and data-flow planning",
+      "Tested first release and handoff",
     ],
     startingPoint:
-      "Can start on its own or alongside a website when the business needs both public pages and private workflows.",
+      "Website tools start from $1,500. Full-stack apps start from $4,000 after paid discovery and a feature-based estimate.",
     nextStep:
       "Email me the workflow, who uses it, what it needs to handle, and where the current process is slowing the business down.",
   },

@@ -5,7 +5,7 @@ export const pricingContent = {
   eyebrow: "Pricing",
   title: "Straightforward prices. Clear scope.",
   intro:
-    "Choose a fixed website package, or start with a focused tool. Larger workflow apps begin with discovery so the estimate fits the business.",
+    "Choose a fixed website package, add focused interactive tools, or begin a full-stack app with paid discovery and a defined first release.",
   primaryOffers: [
     {
       title: "Simple Website / Landing Page",
@@ -29,14 +29,23 @@ export const pricingContent = {
       ],
     },
     {
-      title: "Tools & Apps",
-      price: "From $500",
-      summary:
-        "A focused calculator, intake flow, automation, portal, dashboard, or internal tool.",
+      title: "Website + Custom Tool",
+      price: "From $1,500",
+      summary: "A business website with one focused public-facing tool.",
       includes: [
-        "Quick tools from $500",
-        "Workflow apps from $1,500",
-        "Paid discovery before larger builds",
+        "One focused feature",
+        "Category filters, calculators, selectors, or intake",
+        "No accounts or shared business database",
+      ],
+    },
+    {
+      title: "Full-Stack Web App",
+      price: "From $4,000",
+      summary: "A lean custom app for one core workflow, scoped after paid discovery.",
+      includes: [
+        "One inventory, request, or record workflow",
+        "Accounts, database, and basic admin access",
+        "Feature-based estimate after discovery",
       ],
     },
   ],
@@ -66,7 +75,7 @@ export const pricingContent = {
     },
   ],
   scopeNote:
-    "Website prices assume ready-to-use text and images and include one consolidated edit pass. Extra pages, custom features, paid services, and further revisions are quoted separately.",
+    "Website prices assume ready-to-use content and one consolidated edit pass. Website tools cover one scoped public feature. Full-stack builds start at $4,000 after paid discovery; added roles, workflows, integrations, and revisions are quoted separately.",
   closingNote:
     "Send your goal, content, and timing. I will tell you which package fits or whether discovery comes first.",
   primaryCtaLabel: contactContent.primaryCtaLabel,
