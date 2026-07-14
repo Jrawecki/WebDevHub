@@ -955,7 +955,7 @@ test("pricing page publishes website, tool, and care starting prices", async ({ 
   await page.waitForLoadState("networkidle");
 
   await expect(
-    page.getByRole("heading", { name: "Clear prices for a simpler website." }),
+    page.getByRole("heading", { name: "Straightforward prices. Clear scope." }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Landing Page" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Core Website" })).toBeVisible();
@@ -970,6 +970,29 @@ test("pricing page publishes website, tool, and care starting prices", async ({ 
   await expect(page.getByText("From $500", { exact: true })).toBeVisible();
   await expect(page.getByText("From $1,500", { exact: true })).toBeVisible();
   await expect(page.getByText("$29/mo", { exact: true })).toBeVisible();
+  await expect(page.getByText("Common feature additions", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("Scope notes", { exact: true })).toHaveCount(0);
+});
+
+test("site uses a solid page background without the diagonal line pattern", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+
+  const background = await page.locator("body").evaluate((node) => {
+    const bodyStyles = window.getComputedStyle(node);
+    const shell = document.querySelector(".site-shell");
+    const shellDecoration = shell
+      ? window.getComputedStyle(shell, "::before")
+      : null;
+
+    return {
+      bodyImage: bodyStyles.backgroundImage,
+      shellImage: shellDecoration?.backgroundImage ?? "none",
+    };
+  });
+
+  expect(background.bodyImage).toBe("none");
+  expect(background.shellImage).toBe("none");
 });
 
 test("pricing page explains the 45-day support period and follow-on care", async ({ page }) => {
@@ -981,7 +1004,7 @@ test("pricing page explains the 45-day support period and follow-on care", async
   ).toBeVisible();
   await expect(
     page.getByText(
-      "Every project includes 45 days of launch support for small corrections and bug fixes. New pages, new features, integrations, and major content work are quoted separately.",
+      "This covers small corrections and bug fixes. New pages, features, integrations, and major content work are quoted separately.",
     ),
   ).toBeVisible();
   await expect(

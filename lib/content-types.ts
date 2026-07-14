@@ -126,12 +126,6 @@ export type PricingPackage = {
   includes: readonly string[];
 };
 
-export type PricingAddOn = {
-  title: string;
-  description: string;
-  price: string;
-};
-
 export type PricingCarePlan = {
   title: string;
   price: string;
@@ -146,14 +140,13 @@ export type PricingContent = {
   quickTool: PricingPackage;
   workflowApp: PricingPackage & {
     discoveryNote: string;
-    addOns: readonly PricingAddOn[];
   };
   launchSupport: {
     title: string;
     body: string;
   };
   carePlans: readonly PricingCarePlan[];
-  scopeNotes: readonly string[];
+  scopeNote: string;
   closingNote: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;

@@ -3,9 +3,9 @@ import type { PricingContent } from "@/lib/content-types";
 
 export const pricingContent = {
   eyebrow: "Pricing",
-  title: "Clear prices for a simpler website.",
+  title: "Straightforward prices. Clear scope.",
   intro:
-    "Start with a fixed website package. If your business needs a tool or app, we map the workflow first and price only the features that belong in the first release.",
+    "Choose a fixed website package, or start with a focused tool. Larger workflow apps begin with discovery so the estimate fits the business.",
   websitePackages: [
     {
       title: "Landing Page",
@@ -13,33 +13,30 @@ export const pricingContent = {
       summary: "One focused scrolling page for a service, offer, or campaign.",
       includes: [
         "Up to five standard sections",
-        "A direct contact path",
-        "Domain connection and mobile layout",
-        "One consolidated edit pass",
+        "Mobile layout and contact path",
+        "Domain connection and launch setup",
       ],
     },
     {
       title: "Core Website",
       price: "$599",
       summary:
-        "Up to three essential pages for a clear home page, service or about information, and contact.",
+        "A compact business site with room for the offer, credibility, and contact.",
       includes: [
-        "Mobile-friendly build",
-        "Standard contact form",
-        "Basic page titles and descriptions",
-        "One consolidated edit pass",
+        "Up to three essential pages",
+        "Mobile layout and standard contact form",
+        "Page titles, descriptions, and launch setup",
       ],
     },
     {
       title: "Expanded Website",
       price: "$799",
       summary:
-        "Up to five standard pages for more services, proof, FAQs, gallery, or location details.",
+        "More room for services, proof, FAQs, a gallery, or location details.",
       includes: [
+        "Up to five standard pages",
         "Everything in Core Website",
-        "Two additional standard pages",
-        "Standard booking or contact path",
-        "Basic launch setup",
+        "Space for services, proof, FAQs, or a gallery",
       ],
     },
   ],
@@ -65,44 +62,12 @@ export const pricingContent = {
       "A written feature-based build estimate",
     ],
     discoveryNote:
-      "Every business runs differently. Discovery clarifies who uses the tool, what data it handles, and which workflow matters first, so the project is priced around real work instead of a guess.",
-    addOns: [
-      {
-        title: "User accounts",
-        description: "Logins and basic account access",
-        price: "+$300",
-      },
-      {
-        title: "Saved data",
-        description: "A form, table, or record workspace",
-        price: "+$300",
-      },
-      {
-        title: "Admin dashboard",
-        description: "A simple owner or staff dashboard",
-        price: "+$300",
-      },
-      {
-        title: "Integration",
-        description: "One documented API, automation, or email workflow",
-        price: "+$250",
-      },
-      {
-        title: "Payments or booking",
-        description: "A standard Stripe, Square, or booking setup",
-        price: "+$300",
-      },
-      {
-        title: "Another workflow",
-        description: "A distinct screen or operational flow",
-        price: "From +$200",
-      },
-    ],
+      "Workflow apps vary widely between businesses. Paid discovery maps the users, data, and first useful workflow before the full build is priced.",
   },
   launchSupport: {
     title: "45 days of launch support after handoff",
     body:
-      "Every project includes 45 days of launch support for small corrections and bug fixes. New pages, new features, integrations, and major content work are quoted separately.",
+      "This covers small corrections and bug fixes. New pages, features, integrations, and major content work are quoted separately.",
   },
   carePlans: [
     {
@@ -124,14 +89,10 @@ export const pricingContent = {
         "Monitoring for an agreed small tool plus up to one hour of planned fixes or updates each month.",
     },
   ],
-  scopeNotes: [
-    "Client supplies ready-to-use text, logo, images, and business details.",
-    "Each package includes one consolidated edit pass; further grouped revisions cost $50.",
-    "Extra standard pages start at $100. Ecommerce, custom copywriting, memberships, dashboards, payments, and complex integrations are quoted separately.",
-    "Hosting, domains, and paid third-party services are separate unless named in the package.",
-  ],
+  scopeNote:
+    "Website prices assume ready-to-use text and images and include one consolidated edit pass. Extra pages, custom features, paid services, and further revisions are quoted separately.",
   closingNote:
-    "Send the goal, the content you have, and your timing. I will tell you whether it fits a package or needs discovery first.",
+    "Send your goal, content, and timing. I will tell you which package fits or whether discovery comes first.",
   primaryCtaLabel: contactContent.primaryCtaLabel,
   secondaryCtaLabel: "Contact details",
 } satisfies PricingContent;

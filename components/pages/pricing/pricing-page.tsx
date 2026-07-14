@@ -13,19 +13,23 @@ export function PricingPageContent() {
     workflowApp,
     launchSupport,
     carePlans,
-    scopeNotes,
+    scopeNote,
     closingNote,
     primaryCtaLabel,
     secondaryCtaLabel,
   } = pricingContent;
 
+  const toolOffers = [quickTool, workflowApp];
+
   return (
-    <div className="flex flex-col gap-0">
+    <div className="pricing-page">
       <section className="page-intro pricing-intro">
         <p className="section-label">{eyebrow}</p>
-        <h1 className="display-title max-w-4xl">{title}</h1>
-        <p className="lede copy-block">{intro}</p>
-        <div className="page-intro__actions">
+        <div className="pricing-intro__row">
+          <div className="pricing-intro__copy">
+            <h1 className="display-title">{title}</h1>
+            <p className="lede">{intro}</p>
+          </div>
           <TrackedContactLink
             className="cta-link"
             contactLocation="pricing_intro"
@@ -33,149 +37,80 @@ export function PricingPageContent() {
           >
             {primaryCtaLabel}
           </TrackedContactLink>
-          <Link href="/services" className="secondary-link">
-            Review services
-          </Link>
         </div>
       </section>
 
-      <section className="editorial-section pricing-section">
-        <div className="layout-measure">
-          <div className="pricing-section-heading">
-            <p className="section-label">Website packages</p>
-            <h2 className="section-title max-w-2xl">
-              A clear site, with a clear starting point.
-            </h2>
+      <div className="layout-measure pricing-overview">
+        <section className="pricing-block pricing-block--websites">
+          <div className="pricing-block__heading">
+            <p className="section-label">Websites</p>
+            <h2 className="section-title">Choose by page count.</h2>
           </div>
 
-          <div className="pricing-ledger">
-            {websitePackages.map((packageItem, index) => (
-              <article className="pricing-package" key={packageItem.title}>
-                <div className="pricing-package__meta">
-                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <div className="pricing-plan-grid">
+            {websitePackages.map((packageItem) => (
+              <article className="pricing-plan" key={packageItem.title}>
+                <div className="pricing-plan__topline">
+                  <h3>{packageItem.title}</h3>
                   <p>{packageItem.price}</p>
                 </div>
-                <div className="pricing-package__content">
-                  <h3>{packageItem.title}</h3>
-                  <p>{packageItem.summary}</p>
-                  <ul>
-                    {packageItem.includes.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
+                <p className="pricing-plan__summary">{packageItem.summary}</p>
+                <ul>
+                  {packageItem.includes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="editorial-section editorial-section--band pricing-tools">
-        <div className="layout-measure">
-          <div className="pricing-section-heading">
+        <section className="pricing-block">
+          <div className="pricing-block__heading">
             <p className="section-label">Tools and apps</p>
-            <h2 className="section-title max-w-2xl">
-              Start narrow. Price the real work.
-            </h2>
+            <h2 className="section-title">Start with the smallest useful version.</h2>
           </div>
 
-          <div className="pricing-tool-layout">
-            <article className="pricing-tool">
-              <div className="pricing-tool__meta">
-                <p>{quickTool.price}</p>
-              </div>
-              <div className="pricing-tool__content">
-                <h3>{quickTool.title}</h3>
-                <p>{quickTool.summary}</p>
-                <ul>
-                  {quickTool.includes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-
-            <article className="pricing-tool pricing-tool--workflow">
-              <div className="pricing-tool__meta">
-                <p>{workflowApp.price}</p>
-              </div>
-              <div className="pricing-tool__content">
-                <h3>{workflowApp.title}</h3>
-                <p>{workflowApp.summary}</p>
-                <ul>
-                  {workflowApp.includes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <p className="pricing-tool__note">{workflowApp.discoveryNote}</p>
-              </div>
-            </article>
-          </div>
-
-          <div className="pricing-addons">
-            <div>
-              <p className="section-label">Common feature additions</p>
-              <p className="pricing-addons__intro">
-                These examples show how a workflow-app estimate grows after discovery.
-              </p>
-            </div>
-            <div className="pricing-addons__list">
-              {workflowApp.addOns.map((addOn) => (
-                <div className="pricing-addon" key={addOn.title}>
-                  <div>
-                    <h3>{addOn.title}</h3>
-                    <p>{addOn.description}</p>
-                  </div>
-                  <p>{addOn.price}</p>
+          <div className="pricing-offer-list">
+            {toolOffers.map((offer) => (
+              <article className="pricing-offer" key={offer.title}>
+                <div className="pricing-offer__name">
+                  <h3>{offer.title}</h3>
+                  <p>{offer.summary}</p>
                 </div>
-              ))}
-            </div>
+                <p className="pricing-offer__details">{offer.includes.join(" · ")}</p>
+                <p className="pricing-offer__price">{offer.price}</p>
+              </article>
+            ))}
           </div>
-        </div>
-      </section>
+          <p className="pricing-discovery-note">{workflowApp.discoveryNote}</p>
+        </section>
 
-      <section className="editorial-section pricing-section pricing-support">
-        <div className="layout-measure">
-          <div className="pricing-launch-support">
-            <div>
-              <p className="section-label">Included after handoff</p>
-              <h2 className="section-title max-w-xl">{launchSupport.title}</h2>
+        <section className="pricing-block pricing-block--care">
+          <div className="pricing-care-intro">
+            <div className="pricing-block__heading">
+              <p className="section-label">Support</p>
+              <h2 className="section-title">{launchSupport.title}</h2>
             </div>
             <p>{launchSupport.body}</p>
           </div>
 
-          <div className="pricing-care-list">
+          <div className="pricing-care-grid">
             {carePlans.map((plan) => (
-              <article className="pricing-care-row" key={plan.title}>
-                <div>
+              <article className="pricing-care" key={plan.title}>
+                <div className="pricing-care__topline">
                   <h3>{plan.title}</h3>
-                  <p>{plan.summary}</p>
+                  <p>{plan.price}</p>
                 </div>
-                <p>{plan.price}</p>
+                <p>{plan.summary}</p>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="editorial-section pricing-scope">
-        <div className="layout-measure">
-          <div className="pricing-section-heading">
-            <p className="section-label">Scope notes</p>
-            <h2 className="section-title max-w-2xl">
-              What keeps package pricing fair.
-            </h2>
-          </div>
-          <ol className="pricing-scope-list">
-            {scopeNotes.map((note, index) => (
-              <li key={note}>
-                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <p>{note}</p>
-              </li>
-            ))}
-          </ol>
-
-          <div className="pricing-closing">
+        <footer className="pricing-footer">
+          <p className="pricing-footer__scope">{scopeNote}</p>
+          <div className="pricing-footer__action">
             <p>{closingNote}</p>
             <div className="page-intro__actions">
               <TrackedContactLink
@@ -190,8 +125,8 @@ export function PricingPageContent() {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
+        </footer>
+      </div>
     </div>
   );
 }
