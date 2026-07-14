@@ -4,6 +4,7 @@ export const services = [
   {
     slug: "website-projects",
     title: "Website Projects",
+    priceFrom: "Landing pages from $199",
     summary:
       "Custom websites, redesigns, landing pages, and core sales pages for businesses that need a clearer public presence.",
     audienceFit:
@@ -24,6 +25,7 @@ export const services = [
   {
     slug: "web-apps-tools",
     title: "Web Apps and Tools",
+    priceFrom: "Tools from $500",
     summary:
       "Portals, dashboards, intake systems, and lightweight business apps for workflows that need more than a normal web page.",
     audienceFit:
@@ -44,6 +46,7 @@ export const services = [
   {
     slug: "ongoing-support",
     title: "Ongoing Support",
+    priceFrom: "Care from $29/mo",
     summary:
       "Post-launch help for small edits, bug fixes, practical improvements, and ongoing maintenance after the build is live.",
     audienceFit:
@@ -51,13 +54,13 @@ export const services = [
     primaryOutcome:
       "A website, app, or tool that stays current, maintained, and easier to manage as the business changes.",
     deliverables: [
-      "Included 4-month small-edits and bug-fix window after launch",
-      "Content and layout edits",
-      "Bug fixes and small enhancements",
-      "Optional monthly support subscription or individual paid changes",
+      "45 days of included launch support after handoff",
+      "Extended Launch Care from $29/mo after the included period",
+      "Monthly Updates for planned content or layout changes",
+      "Tool Care for small apps and tools that need monitoring or fixes",
     ],
     startingPoint:
-      "Starts with the included support window after a project, then can continue as a subscription or individual paid updates.",
+      "Starts with 45 days of included launch support after handoff, with optional care plans after that.",
     nextStep:
       "Email me the current setup and the kind of ongoing help you expect. Larger additions are scoped separately.",
   },

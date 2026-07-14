@@ -950,36 +950,55 @@ test("home notes use neutral borders instead of accent top rules", async ({ page
   expect(borders.topColor).not.toBe("rgba(176, 87, 53, 0.18)");
 });
 
-test("pricing page explains websites, tools, and support without public numbers", async ({ page }) => {
+test("pricing page publishes website, tool, and care starting prices", async ({ page }) => {
   await page.goto("/pricing");
   await page.waitForLoadState("networkidle");
 
-  await expect(page.getByRole("heading", { name: "Pricing", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Website projects and landing pages" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Web apps and business tools" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Included support and subscriptions" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Clear prices for a simpler website." }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Landing Page" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Core Website" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Expanded Website" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Quick Tool" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Workflow Apps" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Extended Launch Care" })).toBeVisible();
 
-  const textContent = await page.locator("main").textContent();
-  expect(textContent).not.toBeNull();
-  expect(textContent ?? "").not.toMatch(/\$\d/);
-  expect(textContent ?? "").not.toContain("Product / MVP work");
-  expect(textContent ?? "").not.toContain("product-style");
-  expect(textContent ?? "").not.toContain("normal website builds");
+  await expect(page.getByText("$199", { exact: true })).toBeVisible();
+  await expect(page.getByText("$599", { exact: true })).toBeVisible();
+  await expect(page.getByText("$799", { exact: true })).toBeVisible();
+  await expect(page.getByText("From $500", { exact: true })).toBeVisible();
+  await expect(page.getByText("From $1,500", { exact: true })).toBeVisible();
+  await expect(page.getByText("$29/mo", { exact: true })).toBeVisible();
 });
 
-test("pricing page explains included support and follow-on options", async ({ page }) => {
+test("pricing page explains the 45-day support period and follow-on care", async ({ page }) => {
   await page.goto("/pricing");
   await page.waitForLoadState("networkidle");
 
   await expect(
-    page.getByText("Projects include 4 months of small edits and bug fixes after launch."),
+    page.getByText("45 days of launch support after handoff"),
   ).toBeVisible();
   await expect(
-    page.getByText("Monthly support is available for businesses that want steady updates and maintenance."),
+    page.getByText(
+      "Every project includes 45 days of launch support for small corrections and bug fixes. New pages, new features, integrations, and major content work are quoted separately.",
+    ),
   ).toBeVisible();
   await expect(
-    page.getByText("individual changes can be scoped and paid for as needed"),
+    page.getByText("Monthly Updates", { exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByText("Tool Care", { exact: true }),
+  ).toBeVisible();
+});
+
+test("home page surfaces starting prices for each service family", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+
+  await expect(page.getByText("Landing pages from $199", { exact: true })).toBeVisible();
+  await expect(page.getByText("Tools from $500", { exact: true })).toBeVisible();
+  await expect(page.getByText("Care from $29/mo", { exact: true })).toBeVisible();
 });
 
 test("services includes landing pages and web apps as primary services", async ({ page }) => {

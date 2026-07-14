@@ -57,6 +57,7 @@ export type SiteConfig = {
 export type ServiceEntry = {
   slug: ServiceSlug;
   title: string;
+  priceFrom: string;
   summary: string;
   audienceFit: string;
   primaryOutcome: string;
@@ -118,21 +119,41 @@ export type ContactContent = {
   projectTypes: readonly ContactProjectTypeOption[];
 };
 
-export type PricingSection = {
+export type PricingPackage = {
   title: string;
-  body: string;
-  bullets: readonly string[];
+  price: string;
+  summary: string;
+  includes: readonly string[];
+};
+
+export type PricingAddOn = {
+  title: string;
+  description: string;
+  price: string;
+};
+
+export type PricingCarePlan = {
+  title: string;
+  price: string;
+  summary: string;
 };
 
 export type PricingContent = {
   eyebrow: string;
   title: string;
   intro: string;
-  websiteProjects: PricingSection;
-  webAppsTools: PricingSection;
-  directCollaboration: PricingSection;
-  purchaseIncludes: PricingSection;
-  supportOptions: PricingSection;
+  websitePackages: readonly PricingPackage[];
+  quickTool: PricingPackage;
+  workflowApp: PricingPackage & {
+    discoveryNote: string;
+    addOns: readonly PricingAddOn[];
+  };
+  launchSupport: {
+    title: string;
+    body: string;
+  };
+  carePlans: readonly PricingCarePlan[];
+  scopeNotes: readonly string[];
   closingNote: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;

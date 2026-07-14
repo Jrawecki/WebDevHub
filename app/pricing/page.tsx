@@ -5,7 +5,7 @@ import { PricingPageContent } from "@/components/pages/pricing/pricing-page";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "A short explanation of how websites, landing pages, web apps, tools, and support are scoped and priced without public price numbers.",
+    "Straightforward pricing for landing pages, websites, focused tools, workflow apps, and ongoing launch care.",
 };
 
 export default function PricingPage() {

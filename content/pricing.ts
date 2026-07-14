@@ -3,61 +3,135 @@ import type { PricingContent } from "@/lib/content-types";
 
 export const pricingContent = {
   eyebrow: "Pricing",
-  title: "Scope first. Clear pricing after that.",
+  title: "Clear prices for a simpler website.",
   intro:
-    "I price websites, landing pages, web apps, and tools after I understand the scope, the launch needs, and the support path.",
-  websiteProjects: {
-    title: "Website projects and landing pages",
-    body:
-      "For website and landing-page work, I review the goals, page scope, content needs, and launch requirements. Then I send a scoped quote.",
-    bullets: [
-      "Useful for new sites, redesigns, service pages, and focused landing pages.",
-      "Pricing depends on pages, content complexity, integrations, and launch requirements.",
-      "Clear requests usually move from brief review to scoped quote quickly.",
+    "Start with a fixed website package. If your business needs a tool or app, we map the workflow first and price only the features that belong in the first release.",
+  websitePackages: [
+    {
+      title: "Landing Page",
+      price: "$199",
+      summary: "One focused scrolling page for a service, offer, or campaign.",
+      includes: [
+        "Up to five standard sections",
+        "A direct contact path",
+        "Domain connection and mobile layout",
+        "One consolidated edit pass",
+      ],
+    },
+    {
+      title: "Core Website",
+      price: "$599",
+      summary:
+        "Up to three essential pages for a clear home page, service or about information, and contact.",
+      includes: [
+        "Mobile-friendly build",
+        "Standard contact form",
+        "Basic page titles and descriptions",
+        "One consolidated edit pass",
+      ],
+    },
+    {
+      title: "Expanded Website",
+      price: "$799",
+      summary:
+        "Up to five standard pages for more services, proof, FAQs, gallery, or location details.",
+      includes: [
+        "Everything in Core Website",
+        "Two additional standard pages",
+        "Standard booking or contact path",
+        "Basic launch setup",
+      ],
+    },
+  ],
+  quickTool: {
+    title: "Quick Tool",
+    price: "From $500",
+    summary:
+      "A narrow calculator, quote helper, intake flow, data display, or single automation.",
+    includes: [
+      "One focused workflow",
+      "One owner or admin",
+      "A clear first-release boundary",
     ],
   },
-  webAppsTools: {
-    title: "Web apps and business tools",
-    body:
-      "For apps and tools, I scope the workflow, screens, users, data needs, and the first useful release before pricing the build.",
-    bullets: [
-      "Useful for portals, dashboards, intake systems, internal tools, and lightweight business apps.",
-      "Pricing depends on workflow complexity, integrations, states, permissions, and review needs.",
-      "If the request is still fuzzy, I may recommend paid discovery before quoting the build.",
+  workflowApp: {
+    title: "Workflow Apps",
+    price: "From $1,500",
+    summary:
+      "For a portal, dashboard, intake system, or internal tool that needs more planning than a normal website.",
+    includes: [
+      "Paid discovery before the full build",
+      "A mapped workflow and first-release scope",
+      "A written feature-based build estimate",
+    ],
+    discoveryNote:
+      "Every business runs differently. Discovery clarifies who uses the tool, what data it handles, and which workflow matters first, so the project is priced around real work instead of a guess.",
+    addOns: [
+      {
+        title: "User accounts",
+        description: "Logins and basic account access",
+        price: "+$300",
+      },
+      {
+        title: "Saved data",
+        description: "A form, table, or record workspace",
+        price: "+$300",
+      },
+      {
+        title: "Admin dashboard",
+        description: "A simple owner or staff dashboard",
+        price: "+$300",
+      },
+      {
+        title: "Integration",
+        description: "One documented API, automation, or email workflow",
+        price: "+$250",
+      },
+      {
+        title: "Payments or booking",
+        description: "A standard Stripe, Square, or booking setup",
+        price: "+$300",
+      },
+      {
+        title: "Another workflow",
+        description: "A distinct screen or operational flow",
+        price: "From +$200",
+      },
     ],
   },
-  directCollaboration: {
-    title: "Working directly with me",
+  launchSupport: {
+    title: "45 days of launch support after handoff",
     body:
-      "You work directly with the person planning, designing, and building the project, so decisions stay connected from scope through launch.",
-    bullets: [
-      "Scope, review windows, and responsibilities are named before the build starts.",
-      "You get clear checkpoints instead of open-ended review churn.",
-      "If a request grows, it becomes a new scope or change order instead of hidden drift.",
-    ],
+      "Every project includes 45 days of launch support for small corrections and bug fixes. New pages, new features, integrations, and major content work are quoted separately.",
   },
-  purchaseIncludes: {
-    title: "What is included when you purchase",
-    body:
-      "The exact deliverables depend on the project, but the purchase always includes a clear build scope and launch-ready execution.",
-    bullets: [
-      "Planning for pages, screens, workflows, or landing pages.",
-      "Responsive implementation with QA across key layouts and interactions.",
-      "Launch or handoff notes, metadata basics, and a clear support path.",
-    ],
-  },
-  supportOptions: {
-    title: "Included support and subscriptions",
-    body:
-      "Projects include 4 months of small edits and bug fixes after launch. After that, support can continue as a monthly subscription or individual paid changes.",
-    bullets: [
-      "The included support window covers small edits and bug fixes, not new features or major new pages.",
-      "Monthly support is available for businesses that want steady updates and maintenance.",
-      "If you do not want a subscription, individual changes can be scoped and paid for as needed.",
-    ],
-  },
+  carePlans: [
+    {
+      title: "Extended Launch Care",
+      price: "$29/mo",
+      summary:
+        "Continue hosting, SSL, uptime checks, and deployment help after the included 45-day launch-support period.",
+    },
+    {
+      title: "Monthly Updates",
+      price: "$79/mo",
+      summary:
+        "Extended Launch Care plus one grouped update request of up to 30 minutes each month. Unused time does not roll over.",
+    },
+    {
+      title: "Tool Care",
+      price: "$149/mo",
+      summary:
+        "Monitoring for an agreed small tool plus up to one hour of planned fixes or updates each month.",
+    },
+  ],
+  scopeNotes: [
+    "Client supplies ready-to-use text, logo, images, and business details.",
+    "Each package includes one consolidated edit pass; further grouped revisions cost $50.",
+    "Extra standard pages start at $100. Ecommerce, custom copywriting, memberships, dashboards, payments, and complex integrations are quoted separately.",
+    "Hosting, domains, and paid third-party services are separate unless named in the package.",
+  ],
   closingNote:
-    "If you want the clearest answer, send the brief. I will tell you whether it is ready for a quote or whether it needs discovery first.",
+    "Send the goal, the content you have, and your timing. I will tell you whether it fits a package or needs discovery first.",
   primaryCtaLabel: contactContent.primaryCtaLabel,
   secondaryCtaLabel: "Contact details",
 } satisfies PricingContent;
