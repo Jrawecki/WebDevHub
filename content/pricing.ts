@@ -5,17 +5,19 @@ export const pricingContent = {
   eyebrow: "Pricing",
   title: "Straightforward prices. Clear scope.",
   intro:
-    "Choose a fixed website package, add focused interactive tools, or begin a full-stack app with paid discovery and a defined first release.",
+    "For most small businesses, the $199 Simple Website is the right place to start. Choose more pages, an interactive experience, or a full-stack app when the project needs more.",
   primaryOffers: [
     {
       title: "Simple Website / Landing Page",
       price: "$199",
-      summary: "A focused one-page site for a business, service, offer, or campaign.",
+      summary:
+        "The best fit for most small businesses: a polished one-page site that explains what you offer and how to get in touch.",
       includes: [
-        "Multiple sections",
-        "Customizable layout and content",
+        "Multiple customizable sections",
+        "Flexible design, colors, and content",
         "Mobile layout, contact path, and domain setup",
       ],
+      featuredLabel: "Most popular",
     },
     {
       title: "Expanded Website",
@@ -29,53 +31,61 @@ export const pricingContent = {
       ],
     },
     {
-      title: "Website + Custom Tool",
+      title: "Interactive Website",
       price: "From $1,500",
-      summary: "A business website with one focused public-facing tool.",
+      summary:
+        "A website that helps visitors find, calculate, choose, or submit what they need.",
       includes: [
-        "One focused feature",
-        "Category filters, calculators, selectors, or intake",
-        "No accounts or shared business database",
+        "One useful interactive feature matched to your goal",
+        "Filters, calculators, quote helpers, selectors, or guided intake",
+        "Designed into the site for a smooth, branded experience",
       ],
     },
     {
       title: "Full-Stack Web App",
       price: "From $4,000",
-      summary: "A lean custom app for one core workflow, scoped after paid discovery.",
+      summary:
+        "A purpose-built application for managing inventory, customers, records, or internal operations with secure access and connected data.",
       includes: [
-        "One inventory, request, or record workflow",
-        "Accounts, database, and basic admin access",
-        "Feature-based estimate after discovery",
+        "Inventory, order, customer, or record management",
+        "Secure accounts, database, dashboards, and admin controls",
+        "Paid discovery followed by a feature-based estimate",
       ],
     },
   ],
   launchSupport: {
-    title: "45 days of launch support after handoff",
+    title: "45 days of launch support included",
     body:
-      "This covers small corrections and bug fixes. New pages, features, integrations, and major content work are quoted separately.",
+      "Small corrections and bug fixes are included for 45 days after handoff. After that, choose annual website hosting or a monthly care plan; monthly plans include standard hosting.",
   },
   carePlans: [
+    {
+      title: "Annual Website Hosting",
+      price: "$120/yr",
+      summary:
+        "Includes SSL, domain connection, deployments, and uptime monitoring for a standard website. Content changes are separate.",
+    },
     {
       title: "Extended Launch Care",
       price: "$29/mo",
       summary:
-        "Continue hosting, SSL, uptime checks, and deployment help after the included 45-day launch-support period.",
+        "Standard website hosting, uptime checks, deployment help, and small technical fixes after the included 45 days.",
     },
     {
       title: "Monthly Updates",
       price: "$79/mo",
       summary:
-        "Extended Launch Care plus one grouped update request of up to 30 minutes each month. Unused time does not roll over.",
+        "Extended Launch Care plus one grouped content or layout update of up to 30 minutes each month. Unused time does not roll over.",
     },
     {
-      title: "Tool Care",
-      price: "$149/mo",
+      title: "App Care",
+      price: "From $149/mo",
       summary:
-        "Monitoring for an agreed small tool plus up to one hour of planned fixes or updates each month.",
+        "Monitoring for an agreed interactive feature or app plus up to one hour of planned fixes or updates. Infrastructure is separate.",
     },
   ],
   scopeNote:
-    "Website prices assume ready-to-use content and one consolidated edit pass. Website tools cover one scoped public feature. Full-stack builds start at $4,000 after paid discovery; added roles, workflows, integrations, and revisions are quoted separately.",
+    "Website prices assume ready-to-use content and one consolidated edit pass. Interactive websites include one scoped feature. Full-stack builds start at $4,000 after paid discovery. Domains, databases, storage, email services, and usage-based app infrastructure are billed separately.",
   closingNote:
     "Send your goal, content, and timing. I will tell you which package fits or whether discovery comes first.",
   primaryCtaLabel: contactContent.primaryCtaLabel,

@@ -45,7 +45,13 @@ export function PricingPageContent() {
 
           <div className="pricing-plan-grid">
             {primaryOffers.map((packageItem) => (
-              <article className="pricing-plan" key={packageItem.title}>
+              <article
+                className={`pricing-plan${packageItem.featuredLabel ? " pricing-plan--featured" : ""}`}
+                key={packageItem.title}
+              >
+                {packageItem.featuredLabel ? (
+                  <p className="pricing-plan__flag">{packageItem.featuredLabel}</p>
+                ) : null}
                 <div className="pricing-plan__topline">
                   <h3>{packageItem.title}</h3>
                   <p>{packageItem.price}</p>

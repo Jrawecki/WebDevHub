@@ -10,7 +10,7 @@ export const services = [
     audienceFit:
       "Best for businesses that need a new site, a stronger replacement site, or focused landing pages tied to a clear offer.",
     primaryOutcome:
-      "A website or landing page system that explains the offer clearly, builds trust, and gives visitors an easy next step.",
+      "For most small businesses, a focused one-page site is the right start: a clear offer, stronger trust, and an easy next step.",
     deliverables: [
       "Messaging and page-structure planning",
       "Landing page or core sales-page structure",
@@ -24,29 +24,29 @@ export const services = [
   },
   {
     slug: "web-apps-tools",
-    title: "Web Apps and Tools",
-    priceFrom: "Tools $1,500+ · Apps $4,000+",
+    title: "Interactive Sites and Web Apps",
+    priceFrom: "Interactive sites $1,500+ · Apps $4,000+",
     summary:
-      "Interactive website features and full-stack business apps, from category filters and calculators to inventory trackers and internal dashboards.",
+      "Websites that help visitors search, compare, calculate, or submit, plus full-stack apps for inventory, customers, and internal operations.",
     audienceFit:
-      "Best for businesses that need more than static pages: either one useful customer-facing tool or a focused workflow backed by accounts and data.",
+      "Best for businesses that need more than static pages: either one useful visitor-facing feature or a business system backed by accounts and data.",
     primaryOutcome:
-      "A focused tool or first-release app that makes a customer action or business workflow easier to complete, track, and manage.",
+      "An interactive website or first-release app that makes a customer action or business workflow easier to complete, track, and manage.",
     deliverables: [
       "Workflow and user-path mapping",
-      "Defined scope for the website tool or web app",
+      "Defined scope for the interactive site or web app",
       "Interface, state, and data-flow planning",
       "Tested first release and handoff",
     ],
     startingPoint:
-      "Website tools start from $1,500. Full-stack apps start from $4,000 after paid discovery and a feature-based estimate.",
+      "Interactive websites start from $1,500. Full-stack apps start from $4,000 after paid discovery and a feature-based estimate.",
     nextStep:
       "Email me the workflow, who uses it, what it needs to handle, and where the current process is slowing the business down.",
   },
   {
     slug: "ongoing-support",
     title: "Ongoing Support",
-    priceFrom: "Care from $29/mo",
+    priceFrom: "Hosting $120/yr · Care $29/mo",
     summary:
       "Post-launch help for small edits, bug fixes, practical improvements, and ongoing maintenance after the build is live.",
     audienceFit:
@@ -55,12 +55,12 @@ export const services = [
       "A website, app, or tool that stays current, maintained, and easier to manage as the business changes.",
     deliverables: [
       "45 days of included launch support after handoff",
+      "Annual website hosting for $120/year",
       "Extended Launch Care from $29/mo after the included period",
-      "Monthly Updates for planned content or layout changes",
-      "Tool Care for small apps and tools that need monitoring or fixes",
+      "App Care from $149/mo for monitoring and planned fixes",
     ],
     startingPoint:
-      "Starts with 45 days of included launch support after handoff, with optional care plans after that.",
+      "Start with annual hosting only or choose a monthly care plan after the included 45-day support period.",
     nextStep:
       "Email me the current setup and the kind of ongoing help you expect. Larger additions are scoped separately.",
   },

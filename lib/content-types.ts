@@ -124,6 +124,7 @@ export type PricingPackage = {
   price: string;
   summary: string;
   includes: readonly string[];
+  featuredLabel?: string;
 };
 
 export type PricingCarePlan = {
