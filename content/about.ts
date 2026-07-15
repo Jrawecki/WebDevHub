@@ -1,37 +1,34 @@
 import type { AboutContent } from "@/lib/content-types";
 
 export const aboutContent = {
-  eyebrow: "About",
-  title: "I help turn a website, app, or tool idea into something real.",
-  summary:
-    "I work closely with you to shape the idea, build it, and get it ready to launch.",
+  title: "Every part of the project should work together.",
   intro:
-    "The goal is not to hand you abstract strategy or a pile of mockups. It is to take the idea seriously, shape it properly, and turn it into something your business can use.",
+    "I shape the message, structure, visuals, and development around the same goal, so the finished website or app feels consistent and useful.",
   story: [
     "I build custom websites, landing pages, web apps, and workflow tools for businesses that need clearer digital systems.",
-    "I handle the structure, the design direction, and the front-end build so the project stays connected from early idea through launch.",
+    "I handle the planning, structure, design, and development together, so each decision supports the finished build.",
     "When a business needs both public pages and private workflows, I scope them together so the work stays practical.",
   ],
   principles: [
     {
-      title: "Clarity before decoration",
+      title: "Everything takes shape together",
       description:
-        "The site, page, app, or tool should explain the job quickly and feel strong without relying on trend-heavy styling.",
+        "The message, structure, visuals, and development move forward together so the finished product looks right and does its job.",
     },
     {
-      title: "Built with you, not handed off",
+      title: "You work directly with me",
       description:
-        "I work with you through the planning and build so the idea stays grounded in what the business actually needs.",
+        "We make the key decisions together, and I stay responsible for the work from the first plan through launch.",
     },
     {
-      title: "Scope stays visible",
+      title: "The scope stays clear",
       description:
-        "Projects run better when deliverables, review windows, and change boundaries are named early instead of drifting mid-build.",
+        "We agree on what belongs in the project, when feedback happens, and what can wait for later.",
     },
   ],
   credibilityPoints: [
-    "I work with you from planning through launch to turn the idea into a real website, app, or tool.",
+    "I handle the planning, design, and development as one connected build.",
     "I keep scope, review rounds, and responsibilities clear.",
-    "I show real project links and proof instead of leaning on vague claims.",
+    "I show real project links and working examples so you can see what I actually build.",
   ],
 } satisfies AboutContent;

@@ -6,8 +6,8 @@ export function AboutPageContent() {
       <section className="page-intro">
         <h1 className="display-title">About</h1>
         <p className="lede copy-block">
-          I work directly with you from idea through launch so the project
-          stays connected from the first decisions to the final build.
+          You work directly with me while I plan, design, and build the
+          project from start to finish.
         </p>
       </section>
 
@@ -33,8 +33,8 @@ export function AboutPageContent() {
           <div className="editorial-darkband">
             <div className="section-stack section-stack--center gap-4">
               <h2 className="section-title">
-                The point is clear thinking, direct accountability, and a build
-                that actually gets finished.
+                The thinking, design, and build stay connected, and I stay
+                responsible for the finished work.
               </h2>
               <div className="editorial-dark-list">
                 {aboutContent.credibilityPoints.map((point) => (
@@ -53,17 +53,17 @@ export function AboutPageContent() {
           <div className="section-stack gap-3">
             <h2 className="section-title max-w-4xl">How I work</h2>
             <p className="prose-copy copy-block">
-              The work should feel direct, useful, and connected to what the
-              business actually needs.
+              I keep the work practical, direct, and tied to what the business
+              actually needs.
             </p>
           </div>
 
           <div className="note-grid note-grid--3">
             {aboutContent.principles.map((principle) => (
               <article key={principle.title} className="editorial-note">
-                <h2 className="text-xl font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">
+                <h3 className="text-xl font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">
                   {principle.title}
-                </h2>
+                </h3>
                 <p className="mt-3 text-sm leading-7 text-[color:var(--foreground-soft)]">
                   {principle.description}
                 </p>
@@ -84,19 +84,19 @@ export function AboutPageContent() {
           <div className="editorial-list">
             {[
               {
-                title: "Strategy does not get separated from implementation",
+                title: "The thinking stays connected to the build",
                 body:
-                  "The person deciding what the page needs to say is also the person shaping how it behaves and how it gets built.",
+                  "I shape what the page needs to say, how it should work, and how it gets built.",
               },
               {
-                title: "The offer stays focused on useful work",
+                title: "The scope matches the job",
                 body:
-                  "Websites, landing pages, apps, and tools are all useful when they solve the right business problem at the right scope.",
+                  "We choose a website, landing page, app, or tool based on what the business actually needs.",
               },
               {
-                title: "The idea does not get lost in handoffs",
+                title: "Your idea keeps its direction",
                 body:
-                  "I work with you through the key decisions so the original idea keeps turning into something real instead of getting diluted between roles.",
+                  "You work with me through the key decisions, so the project stays true to the original goal.",
               },
             ].map((item) => (
               <article key={item.title} className="editorial-item">

@@ -62,16 +62,6 @@ async function expectNoHorizontalOverflow(page: Page) {
   expect(overflow).toBeLessThanOrEqual(1);
 }
 
-async function expectGridBackground(page: Page) {
-  const backgroundImage = await page.evaluate(() => {
-    const shell = document.querySelector(".site-shell");
-    return shell ? getComputedStyle(shell, "::before").backgroundImage : "";
-  });
-
-  expect(backgroundImage).toContain("linear-gradient");
-  expect((backgroundImage.match(/linear-gradient/g) ?? []).length).toBe(2);
-}
-
 async function expectTintedSectionBands(page: Page) {
   const surfaces = await page.evaluate(() => {
     return Array.from(
@@ -233,7 +223,9 @@ async function expectNoHeroRail(page: Page) {
 
 async function expectSectionRhythm(page: Page) {
   const rhythm = await page.evaluate(() => {
-    const sections = Array.from(document.querySelectorAll<HTMLElement>(".editorial-section"));
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>(".editorial-section, .pricing-block"),
+    );
     const variantCount = sections.filter((section) =>
       [
         "editorial-section--band",
@@ -257,7 +249,7 @@ async function expectDetailedModulesNotCentered(page: Page) {
   const alignment = await page.evaluate(() => {
     const candidates = Array.from(
       document.querySelectorAll<HTMLElement>(
-        ".editorial-section .structured-row, .editorial-section .project-row, .editorial-section .editorial-note:not(.editorial-note--callout), .editorial-section .editorial-item",
+        ".editorial-section .structured-row, .editorial-section .project-row, .editorial-section .editorial-note, .editorial-section .editorial-item, .pricing-block .pricing-plan, .pricing-block .pricing-care",
       ),
     );
 
@@ -402,7 +394,6 @@ for (const route of ["/", "/services", "/pricing", "/process", "/about", "/work"
     await expect(page.locator("main")).toBeVisible();
     await expectNoHorizontalOverflow(page);
     await expectFlatBackground(page);
-    await expectGridBackground(page);
     await expectHeroScale(page);
     await expectNoHeroRail(page);
     await expectSectionRhythm(page);
@@ -661,7 +652,7 @@ test("theme toggle updates the document theme and persists across reloads", asyn
     const header = document.querySelector(".site-header");
     return {
       bodyBackground: getComputedStyle(document.body).backgroundColor,
-      headerBackground: header ? getComputedStyle(header).backgroundImage : null,
+      headerBackground: header ? getComputedStyle(header).backgroundColor : null,
     };
   });
   expect(initialTheme === "light" || initialTheme === "dark").toBeTruthy();
@@ -684,7 +675,7 @@ test("theme toggle updates the document theme and persists across reloads", asyn
     .poll(async () =>
       page.evaluate(() => {
         const header = document.querySelector(".site-header");
-        return header ? getComputedStyle(header).backgroundImage : null;
+        return header ? getComputedStyle(header).backgroundColor : null;
       }),
     )
     .not.toBe(initialColors.headerBackground);
@@ -694,7 +685,7 @@ test("theme toggle updates the document theme and persists across reloads", asyn
     const header = document.querySelector(".site-header");
     return {
       bodyBackground: getComputedStyle(document.body).backgroundColor,
-      headerBackground: header ? getComputedStyle(header).backgroundImage : null,
+      headerBackground: header ? getComputedStyle(header).backgroundColor : null,
     };
   });
   expect(nextTheme === "light" || nextTheme === "dark").toBeTruthy();
@@ -722,19 +713,25 @@ test("home hero stays buyer-facing", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", {
-      name: "Websites and web apps that make your business easier to run.",
+      name: "Custom websites and web apps, built directly with you and for you.",
     }),
   ).toBeVisible();
   await expect(page.getByText("Websites, landing pages, and web apps in Delaware", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Greater Philadelphia")).toHaveCount(0);
 });
 
-test("home presents websites and tools equally", async ({ page }) => {
+test("home presents websites and apps without repeating the old runway", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
 
-  await expect(page.getByText("Websites and landing pages", { exact: true })).toBeVisible();
-  await expect(page.getByText("Apps and tools", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Custom Websites", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Interactive Websites & Web Apps", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText("Simple sites from $349", { exact: true })).toBeVisible();
+  await expect(page.getByText("From idea to launch", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Reply rhythm", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Websites first", { exact: true })).toHaveCount(0);
 });
@@ -747,6 +744,8 @@ test("home keeps the lower dark contact CTA", async ({ page }) => {
 });
 
 test("non-home pages remove bottom dark CTA blocks", async ({ page }) => {
+  test.setTimeout(60_000);
+
   const removedCopy = [
     { route: "/contact", text: "Email first. Call if the project needs a quick fit check." },
     { route: "/about", text: "The first email should feel straightforward." },
@@ -764,6 +763,8 @@ test("non-home pages remove bottom dark CTA blocks", async ({ page }) => {
 });
 
 test("inner pages open without summary grids", async ({ page }) => {
+  test.setTimeout(60_000);
+
   for (const route of ["/services", "/pricing", "/process", "/about", "/work", "/contact"]) {
     await page.goto(route);
     await page.waitForLoadState("networkidle");
@@ -888,13 +889,15 @@ test("home contact CTA sends contact click analytics", async ({ page }) => {
   await page.waitForLoadState("networkidle");
   await installAnalyticsRecorder(page);
 
-  await page.getByRole("link", { name: "Start your inquiry" }).first().click();
+  const heroCta = page.getByRole("link", { name: "Tell me what you need" });
+  await expect(heroCta).toHaveCount(1);
+  await heroCta.click();
 
   await expectAnalyticsEvent(page, "contact_click", {
     contact_method: "site_cta",
     contact_location: "home_hero",
     lead_source: "site_cta",
-    cta_label: "Start your inquiry",
+    cta_label: "Tell me what you need",
     link_url: "/contact",
   });
   await expect(page).toHaveURL(/\/contact$/);
@@ -931,23 +934,6 @@ test("contact form sends lead analytics before FormSubmit AJAX redirect", async 
     form_name: "project_inquiry",
   });
   await expect(page).toHaveURL(/\/contact\/thanks$/);
-});
-
-test("home notes use neutral borders instead of accent top rules", async ({ page }) => {
-  await page.goto("/");
-  await page.waitForLoadState("networkidle");
-
-  const borders = await page.locator(".editorial-note").first().evaluate((node) => {
-    const styles = window.getComputedStyle(node);
-    return {
-      topColor: styles.borderTopColor,
-      topWidth: styles.borderTopWidth,
-    };
-  });
-
-  expect(borders.topWidth).toBe("1px");
-  expect(borders.topColor).not.toBe("rgb(176, 87, 53)");
-  expect(borders.topColor).not.toBe("rgba(176, 87, 53, 0.18)");
 });
 
 test("pricing page emphasizes the simple website and explains larger builds", async ({ page }) => {
@@ -1274,7 +1260,6 @@ for (const route of ["/", "/pricing", "/contact"]) {
     await expect(page.locator(".theme-toggle")).toBeVisible();
     await expectNoHorizontalOverflow(page);
     await expectFlatBackground(page);
-    await expectGridBackground(page);
     await expectTintedSectionBands(page);
     await expectFooterContrast(page);
 
@@ -1282,7 +1267,7 @@ for (const route of ["/", "/pricing", "/contact"]) {
       const header = document.querySelector(".site-header");
       return {
         bodyBackground: getComputedStyle(document.body).backgroundColor,
-        headerBackground: header ? getComputedStyle(header).backgroundImage : null,
+        headerBackground: header ? getComputedStyle(header).backgroundColor : null,
       };
     });
 

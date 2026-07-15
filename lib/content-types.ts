@@ -81,9 +81,7 @@ export type AboutPrinciple = {
 };
 
 export type AboutContent = {
-  eyebrow: string;
   title: string;
-  summary: string;
   intro: string;
   story: readonly string[];
   principles: readonly AboutPrinciple[];

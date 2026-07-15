@@ -1,9 +1,7 @@
 import Link from "next/link";
 
 import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
-import { aboutContent } from "@/content/about";
 import { contactContent } from "@/content/contact";
-import { processSteps } from "@/content/process";
 import { services } from "@/content/services";
 
 function SectionLead({
@@ -24,6 +22,42 @@ function SectionLead({
   );
 }
 
+const homeProcessSteps = [
+  {
+    title: "Tell me what you need",
+    summary:
+      "We talk through your business, what the site needs to do, and what a good result looks like.",
+  },
+  {
+    title: "Agree on the plan",
+    summary:
+      "I lay out the pages, features, price, and timeline so we both know what we're building.",
+  },
+  {
+    title: "I design and build it",
+    summary:
+      "I handle the design and development, keep you involved at the right points, and get everything ready to launch.",
+  },
+] as const;
+
+const homeServiceCopy = {
+  "website-projects": {
+    title: "Custom Websites",
+    summary:
+      "A clean, custom site that explains what you do, builds trust, and makes it easy for people to take the next step.",
+  },
+  "web-apps-tools": {
+    title: "Interactive Websites & Web Apps",
+    summary:
+      "Need more than a standard website? I build tools, portals, calculators, forms, and custom apps around the way your business works.",
+  },
+  "ongoing-support": {
+    title: "Hosting & Ongoing Support",
+    summary:
+      "I can host your site, handle updates, and help with changes after launch, so you're not left figuring it out alone.",
+  },
+} as const;
+
 export function HomePageContent() {
   return (
     <div className="flex flex-col gap-0">
@@ -33,12 +67,13 @@ export function HomePageContent() {
             <div className="section-stack section-stack--center gap-4">
               <div className="section-label-spacer" aria-hidden="true" />
               <h1 className="display-title max-w-4xl">
-                Websites and web apps that make your business easier to run.
+                Custom websites and web apps, built directly with you and for
+                you.
               </h1>
               <p className="lede copy-block">
-                I design and build custom websites, landing pages, web apps,
-                and workflow tools for businesses that need clearer digital
-                systems.
+                I plan, design, and build the whole thing with you. I take
+                ownership of the work from start to finish, and when we&apos;re
+                done, you own the site.
               </p>
             </div>
 
@@ -46,92 +81,92 @@ export function HomePageContent() {
               <TrackedContactLink
                 className="cta-link"
                 contactLocation="home_hero"
-                ctaLabel="Start your inquiry"
+                ctaLabel="Tell me what you need"
               >
-                Start your inquiry
+                Tell me what you need
               </TrackedContactLink>
               <Link href="/services" className="secondary-link">
-                See services
+                See what I offer
               </Link>
-            </div>
-
-            <div className="note-grid note-grid--3 w-full">
-              <article className="editorial-note editorial-note--callout">
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[color:var(--foreground-muted)]">
-                  From idea to launch
-                </p>
-                <p className="mt-3 text-sm leading-7 text-[color:var(--foreground-soft)]">
-                  I work with you to turn an idea into a real website, page,
-                  app, or tool people can use, trust, and act on.
-                </p>
-              </article>
-              <article className="editorial-note editorial-note--callout">
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[color:var(--foreground-muted)]">
-                  Websites and landing pages
-                </p>
-                <p className="mt-3 text-sm leading-7 text-[color:var(--foreground-soft)]">
-                  Custom sites, redesigns, and focused landing pages help
-                  people understand the offer and take the next step.
-                </p>
-              </article>
-              <article className="editorial-note editorial-note--callout">
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[color:var(--foreground-muted)]">
-                  Apps and tools
-                </p>
-                <p className="mt-3 text-sm leading-7 text-[color:var(--foreground-soft)]">
-                  Portals, dashboards, intake flows, and internal tools fit
-                  when the business needs a workflow people can actually use.
-                </p>
-              </article>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="editorial-section">
-        <div className="editorial-section__grid">
-          <SectionLead
-            label="Services"
-            title="Choose the right build."
-            intro="Websites, landing pages, apps, tools, and support are scoped around what the business actually needs."
-          />
+      <section
+        className="home-services-overview home-services-overview--surface"
+        aria-labelledby="home-services-title"
+      >
+        <div className="home-services-overview__grid">
+          <div className="home-services-overview__intro">
+            <p className="section-label">Services</p>
+            <h2 id="home-services-title" className="section-title">
+              Here&apos;s what I offer.
+            </h2>
+            <p className="lede">
+              I build simple business sites, interactive websites, and full web
+              apps. I can also host them and help with changes after launch.
+            </p>
 
-          <div className="section-stack gap-6">
-            <article className="editorial-note">
-              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[color:var(--foreground-muted)]">
-                Build approach
+            <aside className="home-build-approach">
+              <p className="home-build-approach__label">Working with me</p>
+              <p>
+                You work directly with me from the first conversation through
+                launch.
               </p>
-              <p className="mt-3 text-sm leading-7 text-[color:var(--foreground-soft)]">
-                {aboutContent.credibilityPoints[0]}
+              <p>
+                I handle the planning, design, and development, so the whole
+                project stays connected.
               </p>
-              <p className="mt-3 text-sm leading-7 text-[color:var(--foreground-soft)]">
-                {aboutContent.credibilityPoints[2]}
-              </p>
-            </article>
-
-            <div className="editorial-list">
-              {services.map((service, index) => (
-                <article key={service.slug} className="editorial-item">
-                  <div className="section-stack gap-3">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--border-strong)] font-[var(--font-display)] text-xl text-[color:var(--accent-deep)]">
-                        0{index + 1}
-                      </div>
-                      <h3 className="text-xl font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">
-                        {service.title}
-                      </h3>
-                    </div>
-                    {service.slug === "website-projects" ? (
-                      <p className="home-service-price">{service.priceFrom}</p>
-                    ) : null}
-                    <p className="max-w-3xl text-sm leading-7 text-[color:var(--foreground-soft)]">
-                      {service.primaryOutcome}
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
+            </aside>
           </div>
+
+          <ol className="home-service-index">
+            {services.map((service, index) => {
+              const serviceCopy = homeServiceCopy[service.slug];
+              const isFeatured = service.slug === "website-projects";
+
+              return (
+                <li
+                  key={service.slug}
+                  className={
+                    isFeatured ? "home-service-index__item--featured" : undefined
+                  }
+                >
+                  <Link
+                    href={`/services#${service.slug}`}
+                    className="home-service-index__link"
+                    aria-label={`View ${serviceCopy.title} service details`}
+                  >
+                    <span
+                      className="home-service-index__number"
+                      aria-hidden="true"
+                    >
+                      0{index + 1}
+                    </span>
+                    <div className="home-service-index__body">
+                      <div className="home-service-index__heading">
+                        <h3>{serviceCopy.title}</h3>
+                        {isFeatured ? (
+                          <p className="home-service-price">
+                            <span>A simple place to start</span>
+                            <strong>{service.priceFrom}</strong>
+                          </p>
+                        ) : null}
+                      </div>
+                      <p className="home-service-index__copy">
+                        {serviceCopy.summary}
+                      </p>
+                      <span className="home-service-index__action">
+                        See details
+                        <span aria-hidden="true">&rarr;</span>
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </section>
 
@@ -139,13 +174,13 @@ export function HomePageContent() {
         <div className="editorial-section__grid">
           <SectionLead
             label="Process"
-            title="A clear process keeps the build moving."
-            intro="Clear phases, clear reviews, and a clean launch matter more than extra ceremony."
+            title="How we'll work together."
+            intro="We keep it simple: talk through the idea, agree on what we're building, then I get to work."
           />
 
           <div className="editorial-list home-process-list">
-            {processSteps.slice(0, 3).map((step, index) => (
-                <article key={step.slug} className="editorial-item">
+            {homeProcessSteps.map((step, index) => (
+              <article key={step.title} className="editorial-item">
                 <div className="section-stack gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--border-strong)] text-sm font-semibold text-[color:var(--accent-deep)]">
                     0{index + 1}

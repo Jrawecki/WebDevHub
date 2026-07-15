@@ -30,7 +30,11 @@ export function ServicesPageContent() {
         <div className="layout-measure">
           <div className="structured-rows">
             {services.map((service, index) => (
-              <article key={service.slug} className="structured-row service-row">
+              <article
+                key={service.slug}
+                id={service.slug}
+                className="structured-row service-row"
+              >
                 <div className="layout-balanced">
                   <div className="structured-row__head">
                     <div className="structured-row__meta">

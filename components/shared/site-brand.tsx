@@ -63,6 +63,7 @@ export function SiteBrand({
           alt=""
           width={2048}
           height={682}
+          loading="eager"
           unoptimized
         />
       </span>

@@ -50,6 +50,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${bodyFont.variable} ${displayFont.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
