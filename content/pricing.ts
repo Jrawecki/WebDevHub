@@ -75,13 +75,13 @@ export const pricingContent = {
       title: "Monthly Updates",
       price: "$79/mo",
       summary:
-        "Extended Launch Care plus one grouped content or layout update of up to 30 minutes each month. Unused time does not roll over.",
+        "Extended Launch Care plus content updates. I work with you on updates as your site changes.",
     },
     {
       title: "App Hosting & Care",
       price: "From $149/mo",
       summary:
-        "Standard backend hosting, monitoring, and up to one hour of planned fixes or updates. High storage or traffic may cost more.",
+        "Standard backend hosting and monitoring, plus more updates. High storage or traffic may cost more.",
     },
   ],
   scopeNote:

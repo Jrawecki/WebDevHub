@@ -3,10 +3,10 @@ import Link from "next/link";
 import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { pricingContent } from "@/content/pricing";
 
-function PriceText({ value }: { value: string }) {
+function CurrencyText({ value }: { value: string }) {
   return value.split(/(\$)/g).map((part, index) =>
     part === "$" ? (
-      <span className="pricing-price__currency" key={`currency-${index}`}>
+      <span className="pricing-currency" key={`currency-${index}`}>
         {part}
       </span>
     ) : (
@@ -36,7 +36,9 @@ export function PricingPageContent() {
         <div className="pricing-intro__row">
           <div className="pricing-intro__copy">
             <h1 className="display-title">{title}</h1>
-            <p className="lede">{intro}</p>
+            <p className="lede">
+              <CurrencyText value={intro} />
+            </p>
           </div>
           <TrackedContactLink
             className="cta-link"
@@ -67,13 +69,17 @@ export function PricingPageContent() {
                 <div className="pricing-plan__topline">
                   <h3>{packageItem.title}</h3>
                   <p>
-                    <PriceText value={packageItem.price} />
+                    <CurrencyText value={packageItem.price} />
                   </p>
                 </div>
-                <p className="pricing-plan__summary">{packageItem.summary}</p>
+                <p className="pricing-plan__summary">
+                  <CurrencyText value={packageItem.summary} />
+                </p>
                 <ul>
                   {packageItem.includes.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}>
+                      <CurrencyText value={item} />
+                    </li>
                   ))}
                 </ul>
               </article>
@@ -87,7 +93,9 @@ export function PricingPageContent() {
               <p className="section-label">Support</p>
               <h2 className="section-title">{launchSupport.title}</h2>
             </div>
-            <p>{launchSupport.body}</p>
+            <p>
+              <CurrencyText value={launchSupport.body} />
+            </p>
           </div>
 
           <div className="pricing-care-grid">
@@ -96,19 +104,25 @@ export function PricingPageContent() {
                 <div className="pricing-care__topline">
                   <h3>{plan.title}</h3>
                   <p>
-                    <PriceText value={plan.price} />
+                    <CurrencyText value={plan.price} />
                   </p>
                 </div>
-                <p>{plan.summary}</p>
+                <p>
+                  <CurrencyText value={plan.summary} />
+                </p>
               </article>
             ))}
           </div>
         </section>
 
         <footer className="pricing-footer">
-          <p className="pricing-footer__scope">{scopeNote}</p>
+          <p className="pricing-footer__scope">
+            <CurrencyText value={scopeNote} />
+          </p>
           <div className="pricing-footer__action">
-            <p>{closingNote}</p>
+            <p>
+              <CurrencyText value={closingNote} />
+            </p>
             <div className="page-intro__actions">
               <TrackedContactLink
                 className="cta-link"
