@@ -121,7 +121,9 @@ export function HomePageContent() {
                         {service.title}
                       </h3>
                     </div>
-                    <p className="home-service-price">{service.priceFrom}</p>
+                    {service.slug === "website-projects" ? (
+                      <p className="home-service-price">{service.priceFrom}</p>
+                    ) : null}
                     <p className="max-w-3xl text-sm leading-7 text-[color:var(--foreground-soft)]">
                       {service.primaryOutcome}
                     </p>

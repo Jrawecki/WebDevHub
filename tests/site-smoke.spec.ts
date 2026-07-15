@@ -1029,17 +1029,17 @@ test("pricing page explains the 45-day support period and follow-on care", async
   ).toBeVisible();
 });
 
-test("home page surfaces starting prices for each service family", async ({ page }) => {
+test("home page promotes only the simple website starting price", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
 
   await expect(page.getByText("Simple sites from $199", { exact: true })).toBeVisible();
   await expect(
     page.getByText("Interactive sites $1,500+ · Apps $4,000+", { exact: true }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await expect(
     page.getByText("Simple hosting included · App care $149+/mo", { exact: true }),
-  ).toBeVisible();
+  ).toHaveCount(0);
 });
 
 test("services includes landing pages and web apps as primary services", async ({ page }) => {
