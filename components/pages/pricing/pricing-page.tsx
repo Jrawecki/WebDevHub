@@ -3,6 +3,18 @@ import Link from "next/link";
 import { TrackedContactLink } from "@/components/analytics/tracked-contact-link";
 import { pricingContent } from "@/content/pricing";
 
+function PriceText({ value }: { value: string }) {
+  return value.split(/(\$)/g).map((part, index) =>
+    part === "$" ? (
+      <span className="pricing-price__currency" key={`currency-${index}`}>
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 export function PricingPageContent() {
   const {
     eyebrow,
@@ -54,7 +66,9 @@ export function PricingPageContent() {
                 ) : null}
                 <div className="pricing-plan__topline">
                   <h3>{packageItem.title}</h3>
-                  <p>{packageItem.price}</p>
+                  <p>
+                    <PriceText value={packageItem.price} />
+                  </p>
                 </div>
                 <p className="pricing-plan__summary">{packageItem.summary}</p>
                 <ul>
@@ -81,7 +95,9 @@ export function PricingPageContent() {
               <article className="pricing-care" key={plan.title}>
                 <div className="pricing-care__topline">
                   <h3>{plan.title}</h3>
-                  <p>{plan.price}</p>
+                  <p>
+                    <PriceText value={plan.price} />
+                  </p>
                 </div>
                 <p>{plan.summary}</p>
               </article>
