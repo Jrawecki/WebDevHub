@@ -973,12 +973,31 @@ test("pricing page emphasizes the simple website and explains larger builds", as
   await expect(page.getByText("From $1,500", { exact: true })).toBeVisible();
   await expect(page.getByText("From $4,000", { exact: true })).toBeVisible();
   await expect(
-    page.getByText("Filters, calculators, quote helpers, selectors, or guided intake", {
+    page.getByText(
+      "Make decisions easier with a filter, calculator, quote helper, selector, or guided intake",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Showcase your business with photos and a polished one-page layout", {
       exact: true,
     }),
   ).toBeVisible();
   await expect(
-    page.getByText("Inventory, order, customer, or record management", { exact: true }),
+    page.getByText("Make contact easy with a mobile-friendly form and domain setup", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Present your offerings clearly with a focused catalog or menu", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Turn a customer-facing product, internal tool, portal, marketplace, or original idea into a custom app",
+      { exact: true },
+    ),
   ).toBeVisible();
   await expect(page.getByText("$29/mo", { exact: true })).toBeVisible();
   await expect(page.getByText("Common feature additions", { exact: true })).toHaveCount(0);
@@ -1015,7 +1034,7 @@ test("pricing page explains the 45-day support period and follow-on care", async
   ).toBeVisible();
   await expect(
     page.getByText(
-      "Small corrections and bug fixes are included for 45 days after handoff. Simple website hosting stays included; backend apps use App Hosting & Care.",
+      "Small corrections, bug fixes, and minor content or layout edits are included for 45 days after handoff. After that, choose a care plan or request a one-time paid update whenever needed. Simple Website hosting stays included; backend apps use App Hosting & Care.",
     ),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Simple Website Hosting" })).toBeVisible();
