@@ -1015,16 +1015,17 @@ test("pricing page explains the 45-day support period and follow-on care", async
   ).toBeVisible();
   await expect(
     page.getByText(
-      "Small corrections and bug fixes are included for 45 days after handoff. After that, choose annual website hosting or a monthly care plan; monthly plans include standard hosting.",
+      "Small corrections and bug fixes are included for 45 days after handoff. Simple website hosting stays included; backend apps use App Hosting & Care.",
     ),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Annual Website Hosting" })).toBeVisible();
-  await expect(page.getByText("$120/yr", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Simple Website Hosting" })).toBeVisible();
+  await expect(page.getByText("Included", { exact: true })).toBeVisible();
+  await expect(page.getByText(/usually \$10–\$15\/year for a standard \.com/)).toBeVisible();
   await expect(
     page.getByText("Monthly Updates", { exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText("App Care", { exact: true }),
+    page.getByText("App Hosting & Care", { exact: true }),
   ).toBeVisible();
 });
 
@@ -1036,7 +1037,9 @@ test("home page surfaces starting prices for each service family", async ({ page
   await expect(
     page.getByText("Interactive sites $1,500+ · Apps $4,000+", { exact: true }),
   ).toBeVisible();
-  await expect(page.getByText("Hosting $120/yr · Care $29/mo", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Simple hosting included · App care $149+/mo", { exact: true }),
+  ).toBeVisible();
 });
 
 test("services includes landing pages and web apps as primary services", async ({ page }) => {

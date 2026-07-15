@@ -46,21 +46,22 @@ export const services = [
   {
     slug: "ongoing-support",
     title: "Ongoing Support",
-    priceFrom: "Hosting $120/yr · Care $29/mo",
+    priceFrom: "Simple hosting included · App care $149+/mo",
     summary:
-      "Post-launch help for small edits, bug fixes, practical improvements, and ongoing maintenance after the build is live.",
+      "Included simple-site hosting, optional monthly website care, and app hosting subscriptions for systems with a back end.",
     audienceFit:
       "Best for businesses that want a reliable support path after launch instead of figuring out every small change alone.",
     primaryOutcome:
-      "A website, app, or tool that stays current, maintained, and easier to manage as the business changes.",
+      "A website or app that stays online, monitored, and easier to maintain as the business changes.",
     deliverables: [
       "45 days of included launch support after handoff",
-      "Annual website hosting for $120/year",
+      "Simple website hosting and SSL included",
+      "Custom domains billed at registrar cost",
       "Extended Launch Care from $29/mo after the included period",
-      "App Care from $149/mo for monitoring and planned fixes",
+      "App Hosting & Care from $149/mo, including standard backend usage",
     ],
     startingPoint:
-      "Start with annual hosting only or choose a monthly care plan after the included 45-day support period.",
+      "Simple website hosting stays included. Choose monthly website care for ongoing help or App Hosting & Care for backend systems.",
     nextStep:
       "Email me the current setup and the kind of ongoing help you expect. Larger additions are scoped separately.",
   },

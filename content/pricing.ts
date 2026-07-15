@@ -56,20 +56,20 @@ export const pricingContent = {
   launchSupport: {
     title: "45 days of launch support included",
     body:
-      "Small corrections and bug fixes are included for 45 days after handoff. After that, choose annual website hosting or a monthly care plan; monthly plans include standard hosting.",
+      "Small corrections and bug fixes are included for 45 days after handoff. Simple website hosting stays included; backend apps use App Hosting & Care.",
   },
   carePlans: [
     {
-      title: "Annual Website Hosting",
-      price: "$120/yr",
+      title: "Simple Website Hosting",
+      price: "Included",
       summary:
-        "Includes SSL, domain connection, deployments, and uptime monitoring for a standard website. Content changes are separate.",
+        "Hosting and SSL are included for simple websites. Custom domains are billed at registrar cost, usually $10–$15/year for a standard .com.",
     },
     {
       title: "Extended Launch Care",
       price: "$29/mo",
       summary:
-        "Standard website hosting, uptime checks, deployment help, and small technical fixes after the included 45 days.",
+        "Priority help with uptime, deployments, and small technical fixes after the included 45 days.",
     },
     {
       title: "Monthly Updates",
@@ -78,14 +78,14 @@ export const pricingContent = {
         "Extended Launch Care plus one grouped content or layout update of up to 30 minutes each month. Unused time does not roll over.",
     },
     {
-      title: "App Care",
+      title: "App Hosting & Care",
       price: "From $149/mo",
       summary:
-        "Monitoring for an agreed interactive feature or app plus up to one hour of planned fixes or updates. Infrastructure is separate.",
+        "Standard backend hosting, monitoring, and up to one hour of planned fixes or updates. High storage or traffic may cost more.",
     },
   ],
   scopeNote:
-    "Website prices assume ready-to-use content and one consolidated edit pass. Interactive websites include one scoped feature. Full-stack builds start at $4,000 after paid discovery. Domains, databases, storage, email services, and usage-based app infrastructure are billed separately.",
+    "Website prices assume ready-to-use content and one consolidated edit pass. Interactive websites include one scoped feature. Full-stack builds start at $4,000 after paid discovery. Custom domains are billed at registrar cost. App Hosting & Care includes standard backend usage; high storage, traffic, email, or other paid services may add cost.",
   closingNote:
     "Send your goal, content, and timing. I will tell you which package fits or whether discovery comes first.",
   primaryCtaLabel: contactContent.primaryCtaLabel,
