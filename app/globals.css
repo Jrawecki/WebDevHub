@@ -910,17 +910,56 @@ textarea {
 }
 
 .pricing-currency {
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  position: relative;
+  display: inline-block;
+  width: 0.6em;
+  height: 0.94em;
   font-size: 0.94em;
   font-weight: inherit;
-  letter-spacing: 0;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+
+.pricing-currency__source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pricing-currency::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1em;
+  font-weight: inherit;
+  line-height: 1;
+  content: "S";
+}
+
+.pricing-currency::after {
+  position: absolute;
+  top: -0.05em;
+  bottom: -0.05em;
+  left: 50%;
+  width: 1px;
+  background: currentColor;
+  content: "";
+  transform: translateX(-50%);
 }
 
 .pricing-plan__topline .pricing-currency,
 .pricing-care__topline .pricing-currency {
-  font-size: 0.88em;
+  font-size: 0.92em;
   font-weight: 600;
-  vertical-align: 0.04em;
+  vertical-align: -0.07em;
 }
 
 .pricing-plan__summary {

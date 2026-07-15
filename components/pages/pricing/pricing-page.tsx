@@ -6,8 +6,13 @@ import { pricingContent } from "@/content/pricing";
 function CurrencyText({ value }: { value: string }) {
   return value.split(/(\$)/g).map((part, index) =>
     part === "$" ? (
-      <span className="pricing-currency" key={`currency-${index}`}>
-        {part}
+      <span
+        aria-label="dollar"
+        className="pricing-currency"
+        key={`currency-${index}`}
+        role="img"
+      >
+        <span className="pricing-currency__source">{part}</span>
       </span>
     ) : (
       part
