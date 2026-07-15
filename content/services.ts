@@ -4,7 +4,7 @@ export const services = [
   {
     slug: "website-projects",
     title: "Website Projects",
-    priceFrom: "Simple sites from $199",
+    priceFrom: "Simple sites from $349",
     summary:
       "Custom websites, redesigns, landing pages, and core sales pages for businesses that need a clearer public presence.",
     audienceFit:

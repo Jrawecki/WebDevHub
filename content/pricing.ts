@@ -5,29 +5,31 @@ export const pricingContent = {
   eyebrow: "Pricing",
   title: "Straightforward prices. Clear scope.",
   intro:
-    "For most small businesses, the $199 Simple Website is the right place to start. Choose more pages, an interactive experience, or a full-stack app when the project needs more.",
+    "For most small businesses, the $349 Simple Website is the right place to start. Choose more pages, an interactive experience, or a full-stack app when the project needs more.",
   primaryOffers: [
     {
       title: "Simple Website / Landing Page",
-      price: "$199",
+      price: "$349",
       summary:
         "The best fit for most small businesses: a polished one-page site that explains what you offer and how to get in touch.",
       includes: [
         "Showcase your business with photos and a polished one-page layout",
         "Say exactly what you want with text tailored to your message",
         "Make contact easy with a mobile-friendly form and domain setup",
+        "Build a stronger search foundation with essential on-page SEO",
       ],
       featuredLabel: "Most popular",
     },
     {
       title: "Expanded Website",
-      price: "$599",
+      price: "$799",
       summary:
         "A multi-page business site with more room for services, credibility, and contact.",
       includes: [
         "Get everything included with the Simple Website, plus more room to grow",
-        "Give key services and topics their own space across up to four custom pages",
+        "Give key services and topics their own space across up to five custom pages",
         "Present your offerings clearly with a focused catalog or menu",
+        "Support discovery across the site with page-by-page SEO setup",
       ],
     },
     {

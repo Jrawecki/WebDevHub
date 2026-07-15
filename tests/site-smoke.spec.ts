@@ -966,9 +966,10 @@ test("pricing page emphasizes the simple website and explains larger builds", as
   await expect(page.getByText("Most popular", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Extended Launch Care" })).toBeVisible();
 
-  await expect(page.getByText("$199", { exact: true })).toBeVisible();
-  await expect(page.getByText("$599", { exact: true })).toBeVisible();
-  await expect(page.getByText("$799", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("$349", { exact: true })).toBeVisible();
+  await expect(page.getByText("$799", { exact: true })).toBeVisible();
+  await expect(page.getByText("$199", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("$599", { exact: true })).toHaveCount(0);
   await expect(page.getByText("From $500", { exact: true })).toHaveCount(0);
   await expect(page.getByText("From $1,500", { exact: true })).toBeVisible();
   await expect(page.getByText("From $4,000", { exact: true })).toBeVisible();
@@ -989,7 +990,23 @@ test("pricing page emphasizes the simple website and explains larger builds", as
     }),
   ).toBeVisible();
   await expect(
+    page.getByText("Build a stronger search foundation with essential on-page SEO", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Give key services and topics their own space across up to five custom pages",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(
     page.getByText("Present your offerings clearly with a focused catalog or menu", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Support discovery across the site with page-by-page SEO setup", {
       exact: true,
     }),
   ).toBeVisible();
@@ -1052,7 +1069,7 @@ test("home page promotes only the simple website starting price", async ({ page 
   await page.goto("/");
   await page.waitForLoadState("networkidle");
 
-  await expect(page.getByText("Simple sites from $199", { exact: true })).toBeVisible();
+  await expect(page.getByText("Simple sites from $349", { exact: true })).toBeVisible();
   await expect(
     page.getByText("Interactive sites $1,500+ · Apps $4,000+", { exact: true }),
   ).toHaveCount(0);
